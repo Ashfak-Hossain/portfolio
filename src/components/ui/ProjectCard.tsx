@@ -47,8 +47,8 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         alt={`${project.name} screenshot`}
         placeholder="// drop screenshot"
       />
-      <div className={styles.halftone} />
-      <div className={styles.speedlines} />
+      {!project.image && <div className={styles.halftone} aria-hidden="true" />}
+      <div className={styles.speedlines} aria-hidden="true" />
       <div className={styles.caption}>
         <div className={styles.capTop}>
           <span>
