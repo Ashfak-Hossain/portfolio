@@ -1,0 +1,294 @@
+.poster {
+  --clip: polygon(
+    0% 2%,
+    7% 0.6%,
+    16% 1.4%,
+    27% 0.5%,
+    39% 1.1%,
+    51% 0.4%,
+    63% 1.2%,
+    74% 0.4%,
+    86% 1.1%,
+    95% 0.6%,
+    100% 2%,
+    99% 15%,
+    100% 31%,
+    98.8% 50%,
+    100% 69%,
+    99% 85%,
+    100% 98%,
+    93% 99.4%,
+    81% 98.8%,
+    68% 99.7%,
+    55% 99%,
+    41% 99.7%,
+    28% 98.9%,
+    15% 99.6%,
+    5% 99%,
+    0% 98%,
+    1% 84%,
+    0% 66%,
+    1.3% 50%,
+    0% 32%,
+    1% 16%
+  );
+  justify-self: center;
+  width: 100%;
+  max-width: 340px;
+  position: relative;
+  color: #2c1e10;
+  font-family: var(--font-type);
+  transform: rotate(-1.6deg);
+  will-change: transform, opacity;
+}
+
+/* aged masking tape */
+.tape {
+  position: absolute;
+  top: -13px;
+  width: 80px;
+  height: 26px;
+  background: linear-gradient(
+    90deg,
+    rgba(206, 188, 140, 0),
+    rgba(204, 186, 138, 0.78) 14%,
+    rgba(204, 186, 138, 0.78) 86%,
+    rgba(206, 188, 140, 0)
+  );
+  border-left: 1px dashed rgba(110, 86, 48, 0.3);
+  border-right: 1px dashed rgba(110, 86, 48, 0.3);
+  z-index: 6;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+.tapeLeft {
+  left: 16px;
+  transform: rotate(-9deg);
+}
+.tapeRight {
+  right: 16px;
+  transform: rotate(8deg);
+}
+
+.shadow {
+  position: absolute;
+  inset: 0;
+  transform: translate(7px, 11px);
+  background: rgba(0, 0, 0, 0.42);
+  filter: blur(7px);
+  clip-path: var(--clip);
+  z-index: 0;
+}
+
+.parchment {
+  position: relative;
+  z-index: 1;
+  background-color: #d8c8a2;
+  background-image:
+    radial-gradient(ellipse at 50% 36%, rgba(255, 250, 232, 0.55), transparent 62%),
+    radial-gradient(circle at 9% 5%, rgba(82, 58, 28, 0.34), transparent 36%),
+    radial-gradient(circle at 93% 95%, rgba(78, 56, 26, 0.36), transparent 40%),
+    radial-gradient(circle at 91% 9%, rgba(95, 70, 38, 0.22), transparent 28%),
+    radial-gradient(circle at 5% 90%, rgba(95, 70, 38, 0.2), transparent 26%),
+    repeating-linear-gradient(0deg, rgba(118, 92, 52, 0.05) 0 2px, transparent 2px 5px);
+  box-shadow: inset 0 0 55px rgba(68, 46, 20, 0.5);
+  clip-path: var(--clip);
+  padding: 22px 18px 16px;
+}
+
+.frame {
+  border: 2px solid #5a4528;
+  outline: 1px solid #5a4528;
+  outline-offset: 3px;
+  padding: 13px 13px 12px;
+}
+
+.wanted {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 47px;
+  letter-spacing: 2px;
+  line-height: 0.9;
+  color: #241708;
+  text-shadow: 0 1px 0 rgba(255, 250, 232, 0.25);
+}
+
+.portraitBox {
+  position: relative;
+  border: 2px solid #5a4528;
+  background: #cbb98e;
+  margin-top: 9px;
+  height: 206px;
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 40%, transparent 52%, rgba(68, 46, 20, 0.42));
+  mix-blend-mode: multiply;
+}
+.tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(150, 110, 55, 0.14);
+  mix-blend-mode: multiply;
+}
+
+.band {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 11px;
+}
+.bandRule {
+  flex: 1;
+  height: 0;
+  border-top: 2px solid #3a2912;
+}
+.bandDiamond {
+  font-size: 7px;
+  color: #3a2912;
+}
+.bandText {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: #241708;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.name {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  margin-top: 9px;
+  color: #241708;
+  line-height: 1;
+}
+.role {
+  text-align: center;
+  font-size: 9.5px;
+  letter-spacing: 3px;
+  color: #4a3417;
+  margin-top: 5px;
+}
+.jp {
+  font-family: var(--font-jp);
+}
+
+.bounty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 11px;
+  color: #241708;
+}
+.berry {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 27px;
+  line-height: 1;
+  padding: 0 1px;
+}
+.berryBar {
+  position: absolute;
+  left: -1.5px;
+  right: -1.5px;
+  height: 2px;
+  background: currentColor;
+}
+.berryBar1 {
+  top: 36%;
+}
+.berryBar2 {
+  top: 62%;
+}
+.bountyNum {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.footerRow {
+  margin-top: 11px;
+  border-top: 2px solid #5a4528;
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #4a3417;
+}
+.anchor {
+  font-family: var(--font-jp);
+  font-size: 13px;
+  line-height: 1;
+}
+.bureau {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 7.5px;
+  letter-spacing: 2.5px;
+}
+.bureauRule {
+  width: 14px;
+  height: 1px;
+  background: #5a4528;
+}
+
+.hanko {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  width: 60px;
+  height: 60px;
+  border: 2.5px solid rgba(70, 46, 20, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-13deg);
+  color: rgba(70, 46, 20, 0.5);
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: 21px;
+  line-height: 0.9;
+  writing-mode: vertical-rl;
+  mix-blend-mode: multiply;
+  z-index: 3;
+}
+
+.stamp {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(2.6) rotate(-12deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+  border: 4px double rgba(60, 40, 18, 0.72);
+  padding: 5px 16px;
+  color: rgba(60, 40, 18, 0.72);
+  mix-blend-mode: multiply;
+  text-align: center;
+}
+.stampJp {
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: 27px;
+  line-height: 1;
+}
+.stampEn {
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 3px;
+  line-height: 1.1;
+}

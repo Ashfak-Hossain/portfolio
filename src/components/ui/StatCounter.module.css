@@ -1,0 +1,21 @@
+.stat {
+  padding: 26px 20px;
+}
+
+.value {
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.suffix {
+  font-size: 18px;
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--line-dim);
+  margin-top: 6px;
+}

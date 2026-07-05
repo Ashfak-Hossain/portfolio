@@ -1,0 +1,104 @@
+/* =========================================================================
+   Global base — reset, document defaults, ambient keyframes, shared utilities.
+   Component-specific styles live in co-located *.module.css files.
+   Scroll choreography is GSAP; only ambient/decorative loops live here as CSS.
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Lenis smooth-scroll manages scroll; disable native smooth to avoid fighting it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 800;
+}
+
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---- shared layout utilities ---- */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* Ambient keyframes are co-located in the *.module.css that use them:
+   CSS Modules scopes `animation-name` references, so a keyframe defined here
+   (global) would not match a scoped reference. Keep each @keyframes in its
+   module. The reduced-motion rule below still stops them via [data-ambient]. */
+
+/* =========================================================================
+   Reduced motion — calm ambient loops + let GSAP fall back to instant states.
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-ambient] {
+    animation: none !important;
+  }
+}

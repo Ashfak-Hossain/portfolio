@@ -1,0 +1,56 @@
+/* =========================================================================
+   Design tokens — the single source of truth for the visual system.
+   Locked look: "Ink & Bone" palette, "Zoro Green" accent, manga accents.
+   Change a value here and it propagates everywhere.
+   ========================================================================= */
+
+:root {
+  /* ---- palette: Ink & Bone ---- */
+  --paper: #f4f1e9;
+  --ink: #14110f;
+  --nav-bg: rgba(244, 241, 233, 0.82);
+  --on-ink: #f4f1e9;
+  --on-ink-dim: #d9d4c8;
+  --on-paper-dim: #6b6660;
+  --line-dim: #a39d92;
+  --surface-dark: #1b1815;
+
+  /* ---- accent: Zoro Green ---- */
+  --accent: #1f7a3f;
+  --accent-strong: #2a9b53;
+  --on-accent: #f4f1e9;
+
+  /* ---- manga red (DON!!) ---- */
+  --don-red: #c0392b;
+
+  /* ---- haki / one-cut violet scale ---- */
+  --haki-void: #0b0714;
+  --haki-abyss: #0e0a18;
+  --haki-deep: #160f26;
+  --haki: #7c3aed;
+  --haki-bright: #a78bfa;
+  --haki-edge: #f3e8ff;
+  --haki-dim: #b3a6cf;
+
+  /* ---- typography ---- */
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-jp: 'Noto Sans JP', var(--font-mono);
+  --font-display: 'Rye', serif; /* WANTED poster */
+  --font-type: 'Special Elite', var(--font-mono);
+
+  /* ---- layout ---- */
+  --container: 1280px;
+  --nav-h: 84px;
+  --gutter: clamp(20px, 5vw, 32px);
+  --section-y: clamp(72px, 10vw, 100px);
+
+  /* ---- z-index scale ---- */
+  --z-progress: 90;
+  --z-nav: 80;
+  --z-overlay: 40;
+  --z-raised: 5;
+
+  /* ---- motion ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}

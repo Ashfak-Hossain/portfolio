@@ -1,0 +1,5 @@
+/* Entry stylesheet — imported once from main.tsx.
+   Design tokens first, then global base. Component styles are co-located
+   *.module.css files imported by their components. */
+@import './styles/tokens.css';
+@import './styles/global.css';

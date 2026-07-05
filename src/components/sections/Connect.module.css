@@ -1,0 +1,119 @@
+.connect {
+  position: relative;
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--section-y) var(--gutter);
+  overflow: hidden;
+}
+
+.spinner {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60vmax;
+  height: 60vmax;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    var(--paper) 0deg 0.3deg,
+    transparent 0.3deg 3.4deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 30%, #000 60%, transparent 80%);
+  mask: radial-gradient(circle, transparent 30%, #000 60%, transparent 80%);
+  opacity: 0.06;
+  animation: spin-reverse 90s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.inner {
+  position: relative;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.blogLink {
+  text-decoration: none;
+  color: var(--paper);
+  display: block;
+  margin-top: 24px;
+  will-change: transform;
+}
+.heading {
+  font-size: clamp(34px, 8vw, 110px);
+  line-height: 0.92;
+  letter-spacing: -2px;
+}
+.arrow {
+  display: inline-block;
+  transform: translateY(-0.1em);
+}
+.blurb {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--on-ink-dim);
+  max-width: 520px;
+  margin-top: 26px;
+}
+
+.socialGrid {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 2px solid var(--paper);
+  border-bottom: 2px solid var(--paper);
+}
+
+.social {
+  text-decoration: none;
+  color: var(--paper);
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-right: 2px solid var(--paper);
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+.social:last-child {
+  border-right: none;
+}
+.social:hover {
+  background: var(--accent);
+  color: var(--paper);
+}
+.socialNum {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--line-dim);
+}
+.socialLabel {
+  font-weight: 800;
+  font-size: 20px;
+}
+
+@media (max-width: 900px) {
+  .socialGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .social:nth-child(2) {
+    border-right: none;
+  }
+}
+@media (max-width: 620px) {
+  .socialGrid {
+    grid-template-columns: 1fr;
+  }
+  .social {
+    border-right: none;
+    border-bottom: 2px solid var(--paper);
+  }
+  .social:last-child {
+    border-bottom: none;
+  }
+}

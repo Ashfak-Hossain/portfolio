@@ -1,0 +1,168 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px var(--gutter) 60px;
+  overflow: hidden;
+}
+
+.halftone {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--ink) 21%, transparent 23%);
+  background-size: 14px 14px;
+  opacity: 0.06;
+  animation: drift 14s linear infinite;
+  pointer-events: none;
+}
+
+.speedField {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140vmax;
+  height: 140vmax;
+  transform: translate(-50%, -50%);
+  opacity: 0.07;
+  pointer-events: none;
+}
+.speedSpin {
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    var(--ink) 0deg 0.32deg,
+    transparent 0.32deg 3.1deg
+  );
+  -webkit-mask: radial-gradient(circle at 50% 50%, transparent 24%, #000 56%, transparent 78%);
+  mask: radial-gradient(circle at 50% 50%, transparent 24%, #000 56%, transparent 78%);
+  animation: spin 200s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes drift {
+  to {
+    background-position: 160px 160px;
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.inner {
+  position: relative;
+  max-width: var(--container);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  margin-bottom: 6vh;
+  text-transform: uppercase;
+}
+.editionJp {
+  font-family: var(--font-jp);
+  font-weight: 700;
+}
+
+.nameBlock {
+  position: relative;
+  line-height: 0.84;
+  font-weight: 800;
+  letter-spacing: -3px;
+  will-change: transform;
+}
+.nameLine {
+  font-size: clamp(48px, 12vw, 170px);
+}
+.nameStroke {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+.givenRow {
+  font-size: clamp(48px, 12vw, 170px);
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.stamp {
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: clamp(20px, 4vw, 52px);
+  letter-spacing: 0;
+  background: var(--accent);
+  color: var(--paper);
+  padding: 0.14em 14px;
+  line-height: 1;
+}
+
+.ledeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 5vh;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.lede {
+  max-width: 520px;
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+.lede em {
+  font-style: italic;
+}
+.scroll {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  animation: bob 1.8s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+.katakanaWrap {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.katakana {
+  writing-mode: vertical-rl;
+  font-family: var(--font-jp);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 6px;
+  color: #8a847b;
+  opacity: 0.7;
+  will-change: transform;
+}
+
+@media (max-width: 620px) {
+  .katakanaWrap {
+    display: none;
+  }
+}

@@ -1,0 +1,140 @@
+/* Manga impact panel: 証明 slams in as a title-drop over converging speed-lines
+   (集中線) + screentone halftone, with a red offset shadow, 「!!」 and sparks. */
+
+.section {
+  --stage-w: min(1080px, 94vw);
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+  border-block: 2px solid var(--ink);
+  min-height: clamp(360px, 54vh, 540px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 3.2vh, 34px);
+  padding: clamp(56px, 9vh, 96px) var(--gutter);
+}
+
+/* horizontal manga action-lines (流線) — flank the word left/right; static
+   (no rotation — the rotating radial motif lives only in the hero) */
+.actionLines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(20, 17, 15, 0.55) 0 2px, transparent 2px 10px);
+  -webkit-mask:
+    linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%),
+    radial-gradient(72% 62% at 50% 50%, transparent 34%, #000 66%);
+  -webkit-mask-composite: source-in;
+  mask:
+    linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%),
+    radial-gradient(72% 62% at 50% 50%, transparent 34%, #000 66%);
+  mask-composite: intersect;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* screentone halftone, denser toward the edges */
+.halftone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--ink) 22%, transparent 24%);
+  background-size: 10px 10px;
+  -webkit-mask: radial-gradient(circle at 50% 50%, transparent 26%, #000 92%);
+  mask: radial-gradient(circle at 50% 50%, transparent 26%, #000 92%);
+}
+
+/* --- the title drop --- */
+.stage {
+  position: relative;
+  width: var(--stage-w);
+  min-height: clamp(150px, 26vw, 300px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.impact {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.2vw, 18px);
+  will-change: transform, opacity;
+}
+.word {
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: clamp(84px, 18vw, 220px);
+  line-height: 0.9;
+  letter-spacing: -3px;
+  color: var(--ink);
+  -webkit-text-stroke: 4px var(--paper);
+  paint-order: stroke fill;
+  text-shadow:
+    8px 8px 0 var(--don-red),
+    12px 12px 0 rgba(20, 17, 15, 0.16);
+  white-space: nowrap;
+}
+.bangs {
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: clamp(60px, 13vw, 160px);
+  line-height: 0.9;
+  color: var(--don-red);
+  -webkit-text-stroke: 4px var(--paper);
+  paint-order: stroke fill;
+  text-shadow: 7px 7px 0 rgba(20, 17, 15, 0.2);
+}
+
+/* impact sparkles */
+.star {
+  position: absolute;
+  z-index: 1;
+  clip-path: polygon(50% 0%, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0% 50%, 42% 42%);
+  will-change: transform, opacity;
+}
+.starInk {
+  background: var(--ink);
+}
+.starRed {
+  background: var(--don-red);
+}
+
+.gloss {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(11px, 1.3vw, 13px);
+  letter-spacing: 7px;
+  color: var(--ink);
+  text-align: center;
+  padding-left: 7px;
+}
+.glossMeaning {
+  display: block;
+  margin-top: 8px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  font-size: 10.5px;
+  color: var(--on-paper-dim);
+}
+
+@media (max-width: 620px) {
+  .word {
+    -webkit-text-stroke-width: 3px;
+    text-shadow:
+      5px 5px 0 var(--don-red),
+      8px 8px 0 rgba(20, 17, 15, 0.16);
+  }
+  .bangs {
+    -webkit-text-stroke-width: 3px;
+  }
+  .gloss {
+    letter-spacing: 5px;
+  }
+}
