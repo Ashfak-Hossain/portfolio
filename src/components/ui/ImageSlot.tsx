@@ -19,15 +19,20 @@ export function ImageSlot({
         className={styles.img}
         src={src}
         alt={alt}
+        loading="lazy"
+        decoding="async"
         style={background ? { background } : undefined}
       />
     );
   }
+  // No real image: if there's no meaningful alt, keep the "// drop …" dev
+  // scaffolding out of the accessibility tree instead of announcing it.
   return (
     <div
       className={styles.placeholder}
-      role="img"
-      aria-label={alt || placeholder}
+      role={alt ? 'img' : undefined}
+      aria-label={alt || undefined}
+      aria-hidden={alt ? undefined : true}
       style={background ? { background } : undefined}
     >
       {placeholder}

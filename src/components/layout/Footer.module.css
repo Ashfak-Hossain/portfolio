@@ -2,13 +2,25 @@
   background: var(--ink);
   color: var(--paper);
   padding: 40px var(--gutter);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  font-size: 12px;
-  letter-spacing: 1px;
+}
+
+.disclaimer {
+  margin-top: 22px;
+  max-width: 720px;
+  color: var(--line-dim);
+  font-size: 10.5px;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
 }
 
 .colophon {

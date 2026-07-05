@@ -1,5 +1,4 @@
 import type { Project } from '../types/content';
-import shortn from '../../public/assets/projects/project_shortn.webp';
 
 export const workBlurb = 'Two systems, each with a proof behind it.';
 export const workHeadingJp = '作品集';
@@ -7,13 +6,13 @@ export const workHeadingJp = '作品集';
 export const projects: Project[] = [
   {
     n: '01',
-    name: 'DISTRIBUTED URL SHORTENER ',
+    name: 'DISTRIBUTED URL SHORTENER',
     stack: 'Go · PostgreSQL · Redis · k8s',
     desc: 'A distributed URL shortener with caching, message queue, resilience, observability, and a Kubernetes/GitOps deployment',
     year: '2026',
     span: 7,
     href: 'https://shortn.ashfak.dev/app',
-    image: shortn,
+    image: '/assets/projects/project_shortn.webp',
   },
   // {
   //   n:

@@ -91,6 +91,7 @@
   will-change: transform;
 }
 .nameLine {
+  display: block;
   font-size: clamp(48px, 12vw, 170px);
 }
 .nameStroke {

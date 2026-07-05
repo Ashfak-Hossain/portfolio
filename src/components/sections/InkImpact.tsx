@@ -97,7 +97,7 @@ export function InkImpact() {
           />
         ))}
 
-        <div ref={impactRef} className={styles.impact}>
+        <div ref={impactRef} className={styles.impact} lang="ja" aria-hidden="true">
           <span className={styles.word}>{stamp.kanji}</span>
           <span className={styles.bangs}>!!</span>
         </div>

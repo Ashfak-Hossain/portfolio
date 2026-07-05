@@ -104,4 +104,6 @@ export interface Contact {
 export interface Footer {
   copyright: string;
   colophon: string;
+  /** Non-affiliation / fan-homage disclaimer shown as footer small-print. */
+  disclaimer: string;
 }

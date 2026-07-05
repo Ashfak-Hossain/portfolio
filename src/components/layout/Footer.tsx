@@ -9,11 +9,14 @@ export function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <span>{footer.copyright}</span>
-      <span className={styles.colophon}>{footer.colophon}</span>
-      <a ref={topRef} href="#top" className={styles.top}>
-        BACK TO TOP ↑
-      </a>
+      <div className={styles.row}>
+        <span>{footer.copyright}</span>
+        <span className={styles.colophon}>{footer.colophon}</span>
+        <a ref={topRef} href="#top" className={styles.top}>
+          BACK TO TOP ↑
+        </a>
+      </div>
+      <p className={styles.disclaimer}>{footer.disclaimer}</p>
     </footer>
   );
 }

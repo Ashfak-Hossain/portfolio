@@ -11,7 +11,9 @@ export function Nav() {
   return (
     <nav className={styles.nav}>
       <a ref={logoRef} href="#top" className={styles.logo}>
-        <span className={styles.mark}>{identity.logoKanji}</span>
+        <span className={styles.mark} lang="ja">
+          {identity.logoKanji}
+        </span>
         <span className={styles.logoWord}>{identity.short}</span>
       </a>
 

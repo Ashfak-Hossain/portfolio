@@ -73,15 +73,22 @@ export function WantedPoster() {
 
           <div className={styles.band}>
             <span className={styles.bandRule} />
-            <span className={styles.bandDiamond}>◆</span>
+            <span className={styles.bandDiamond} aria-hidden="true">
+              ◆
+            </span>
             <div className={styles.bandText}>DEAD OR ALIVE</div>
-            <span className={styles.bandDiamond}>◆</span>
+            <span className={styles.bandDiamond} aria-hidden="true">
+              ◆
+            </span>
             <span className={styles.bandRule} />
           </div>
 
           <div className={styles.name}>{poster.name}</div>
           <div className={styles.role}>
-            {poster.role}&nbsp;·&nbsp;<span className={styles.jp}>{poster.numberJp}</span>
+            {poster.role}&nbsp;·&nbsp;
+            <span className={styles.jp} lang="ja">
+              {poster.numberJp}
+            </span>
           </div>
 
           <div className={styles.bounty}>
@@ -94,20 +101,31 @@ export function WantedPoster() {
           </div>
 
           <div className={styles.footerRow}>
-            <span className={styles.anchor}>⚓</span>
+            <span className={styles.anchor} aria-hidden="true">
+              ⚓
+            </span>
             <div className={styles.bureau}>
               <span className={styles.bureauRule} />
-              ENGINEERING BUREAU<span className={styles.jp}>·海軍</span>
+              ENGINEERING BUREAU
+              <span className={styles.jp} lang="ja">
+                ·海軍
+              </span>
               <span className={styles.bureauRule} />
             </div>
-            <span className={styles.anchor}>⚓</span>
+            <span className={styles.anchor} aria-hidden="true">
+              ⚓
+            </span>
           </div>
         </div>
 
-        <div className={styles.hanko}>求人</div>
+        <div className={styles.hanko} lang="ja" aria-hidden="true">
+          求人
+        </div>
 
         <div ref={stampRef} className={styles.stamp}>
-          <div className={styles.stampJp}>採用</div>
+          <div className={styles.stampJp} lang="ja">
+            採用
+          </div>
           {/* <div className={styles.stampEn}>HIRED</div> */}
         </div>
       </div>

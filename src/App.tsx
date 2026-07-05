@@ -17,9 +17,12 @@ export default function App() {
 
   return (
     <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
       <ScrollProgress />
       <Nav />
-      <main>
+      <main id="main" tabIndex={-1}>
         <Hero />
         <InkImpact />
         <About />

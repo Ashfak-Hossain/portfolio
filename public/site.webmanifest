@@ -1,0 +1,22 @@
+{
+  "name": "Ashfak Hossain Evan — Portfolio",
+  "short_name": "A.H.EVAN",
+  "description": "Portfolio of Ashfak H. Evan, a software engineer and competitive programmer who builds systems he can reason about.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f1e9",
+  "theme_color": "#f4f1e9",
+  "icons": [
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" },
+    {
+      "src": "/icon-maskable-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ]
+}

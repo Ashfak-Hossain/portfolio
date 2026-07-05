@@ -24,21 +24,25 @@ export function Hero() {
       <div className={styles.inner}>
         <div className={styles.topRow}>
           <span>{identity.edition}</span>
-          <span className={styles.editionJp}>{identity.editionJp}</span>
+          <span className={styles.editionJp} lang="ja">
+            {identity.editionJp}
+          </span>
         </div>
 
-        <div className={styles.nameBlock} data-depth="-6">
-          <div className={styles.nameLine} data-scramble>
+        <h1 className={styles.nameBlock} data-depth="-6">
+          <span className={styles.nameLine} data-scramble>
             {identity.first}
-          </div>
-          <div className={`${styles.nameLine} ${styles.nameStroke}`} data-scramble>
+          </span>
+          <span className={`${styles.nameLine} ${styles.nameStroke}`} data-scramble>
             {identity.last}
-          </div>
-          <div className={styles.givenRow}>
+          </span>
+          <span className={styles.givenRow}>
             <span data-scramble>{identity.given}</span>
-            <span className={styles.stamp}>{stamp.kanji}</span>
-          </div>
-        </div>
+            <span className={styles.stamp} lang="ja">
+              {stamp.kanji}
+            </span>
+          </span>
+        </h1>
 
         <div className={styles.ledeRow}>
           <p className={styles.lede}>
@@ -52,7 +56,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className={styles.katakanaWrap}>
+      <div className={styles.katakanaWrap} aria-hidden="true">
         <div className={styles.katakana} data-depth="10">
           {identity.katakana}
         </div>

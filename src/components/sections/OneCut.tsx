@@ -5,6 +5,7 @@ import { useMotion } from '../../hooks/useMotion';
 import { Reveal } from '../ui/Reveal';
 import { Eyebrow } from '../ui/Eyebrow';
 import { KatanaFallback } from '../three/KatanaFallback';
+import { SceneBoundary } from '../three/SceneBoundary';
 import styles from './OneCut.module.css';
 
 // The 3D scene (three + R3F) is code-split so it never touches first paint.
@@ -45,40 +46,42 @@ export function OneCut() {
 
   const headingHead = oneCut.heading.replace(oneCut.headingAccentWord, '');
 
+  const sceneFallback = (
+    <div className={styles.fallbackWrap}>
+      <KatanaFallback />
+    </div>
+  );
+
   return (
     <>
       <section ref={sectionRef} id="blades" className={styles.section}>
         <div data-ambient className={styles.clouds} />
         <div data-ambient className={styles.mist} />
-        <div className={styles.watermark}>{oneCut.watermark}</div>
+        <div className={styles.watermark} lang="ja" aria-hidden="true">
+          {oneCut.watermark}
+        </div>
 
         <div className={styles.canvasWrap}>
           {reduced ? (
-            <div className={styles.fallbackWrap}>
-              <KatanaFallback />
-            </div>
+            sceneFallback
           ) : (
-            <Suspense
-              fallback={
-                <div className={styles.fallbackWrap}>
-                  <KatanaFallback />
-                </div>
-              }
-            >
-              <KatanaScene
-                progressRef={progress}
-                onApex={flash}
-                reduced={reduced}
-                cutTrigger={cutTrigger}
-              />
-            </Suspense>
+            <SceneBoundary fallback={sceneFallback}>
+              <Suspense fallback={sceneFallback}>
+                <KatanaScene
+                  progressRef={progress}
+                  onApex={flash}
+                  reduced={reduced}
+                  cutTrigger={cutTrigger}
+                />
+              </Suspense>
+            </SceneBoundary>
           )}
         </div>
 
         <Reveal className={styles.copy} y={20}>
           <div className={styles.copyInner}>
             <Eyebrow align="center" tone="haki">
-              {oneCut.eyebrow}
+              <span lang="ja">{oneCut.eyebrow}</span>
             </Eyebrow>
             <h2 className={styles.heading}>
               {headingHead}
@@ -100,7 +103,9 @@ export function OneCut() {
               flash();
             }}
           >
-            <span className={styles.replayKanji}>斬</span>
+            <span className={styles.replayKanji} lang="ja" aria-hidden="true">
+              斬
+            </span>
             REPLAY CUT
           </button>
         )}
