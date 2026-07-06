@@ -78,16 +78,6 @@ export interface SocialLink {
   href: string | null;
 }
 
-export interface OneCut {
-  eyebrow: string;
-  heading: string;
-  /** Word within `heading` tinted with the haki accent. */
-  headingAccentWord: string;
-  body: string;
-  caption: string;
-  watermark: string;
-}
-
 export interface Connect {
   blurb: string;
   links: SocialLink[];

@@ -68,30 +68,40 @@ export function KatanaBlade({ aura }: KatanaBladeProps) {
         {/* --- blade (draws upward out of the guard) --- */}
         <g className={styles.bladeBody} data-blade-body>
           {/* habaki collar */}
-          <rect x="31" y="342" width="14" height="14" rx="2" fill="var(--blade-stroke)" />
-          {/* blade */}
+          <rect x="28" y="342" width="20" height="14" rx="2" fill="var(--blade-stroke)" />
+          {/* blade — bolder, single-edged with a kissaki tip */}
           <path
-            d="M39,14 C42.5,80 44,220 43.5,344 L34.5,350 C33.5,220 35,80 37,15 Z"
+            d="M45,16 C49,80 50,220 48,346 L27,352 C26,220 30,84 40,20 Z"
             fill="var(--blade-fill)"
             stroke="var(--blade-stroke)"
             strokeWidth="1.6"
             strokeLinejoin="round"
           />
+          {/* yokote (tip division) */}
+          <line
+            x1="41"
+            y1="60"
+            x2="49"
+            y2="52"
+            stroke="var(--blade-stroke)"
+            strokeOpacity="0.5"
+            strokeWidth="1"
+          />
           {/* shinogi ridge line */}
           <path
-            d="M42,28 Q43.4,185 42.4,338"
+            d="M47,40 Q49,190 46,344"
             fill="none"
             stroke="var(--blade-stroke)"
-            strokeOpacity="0.4"
+            strokeOpacity="0.38"
             strokeWidth="1"
           />
           {/* hamon temper line */}
           <path
             className={styles.hamon}
-            d="M36.6,30 Q39,120 36.4,220 Q39,300 35,338"
+            d="M30,60 Q33,150 29,240 Q33,320 28,344"
             fill="none"
             stroke="var(--hamon-color)"
-            strokeWidth="1.6"
+            strokeWidth="2"
             strokeLinecap="round"
           />
         </g>
