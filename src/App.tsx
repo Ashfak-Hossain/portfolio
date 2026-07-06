@@ -7,7 +7,7 @@ import { Hero } from './components/sections/Hero';
 import { InkImpact } from './components/sections/InkImpact';
 import { About } from './components/sections/About';
 import { Work } from './components/sections/Work';
-import { OneCut } from './components/sections/OneCut';
+import { Skills } from './components/sections/Skills';
 import { Connect } from './components/sections/Connect';
 import { Contact } from './components/sections/Contact';
 import { Analytics } from '@vercel/analytics/react';
@@ -28,7 +28,7 @@ export default function App() {
         <InkImpact />
         <About />
         <Work />
-        <OneCut />
+        <Skills />
         <Connect />
         <Contact />
       </main>

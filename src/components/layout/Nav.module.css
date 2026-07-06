@@ -64,12 +64,120 @@
   will-change: transform;
 }
 
+/* --- mobile hamburger (hidden on desktop) --- */
+.menuBtn {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+.burger,
+.burger::before,
+.burger::after {
+  content: '';
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+.burger {
+  position: relative;
+}
+.burger::before {
+  position: absolute;
+  top: -7px;
+  left: 0;
+}
+.burger::after {
+  position: absolute;
+  top: 7px;
+  left: 0;
+}
+.burger[data-open] {
+  background: transparent;
+}
+.burger[data-open]::before {
+  transform: translateY(7px) rotate(45deg);
+}
+.burger[data-open]::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- mobile slide-down menu (hidden on desktop) --- */
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: calc(var(--z-nav) - 1);
+  flex-direction: column;
+  padding: 74px var(--gutter) 26px;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: 2px solid var(--ink);
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition:
+    transform 0.34s var(--ease-out-expo),
+    visibility 0s linear 0.34s;
+}
+.mobileMenu[data-open] {
+  transform: translateY(0);
+  visibility: visible;
+  transition:
+    transform 0.34s var(--ease-out-expo),
+    visibility 0s;
+}
+.mobileLink,
+.mobileContact {
+  font-family: var(--font-mono);
+  text-decoration: none;
+  color: var(--paper);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  font-size: 17px;
+  padding: 15px 2px;
+  border-bottom: 1px solid rgba(244, 241, 233, 0.12);
+}
+.mobileContact {
+  color: var(--accent-strong);
+  border-bottom: none;
+}
+
 @media (max-width: 620px) {
   .links {
-    gap: 16px;
-    font-size: 11px;
+    display: none;
+  }
+  .menuBtn {
+    display: flex;
+  }
+  .mobileMenu {
+    display: flex;
   }
   .logoWord {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobileMenu {
+    transition: visibility 0s linear 0s;
+  }
+  .burger,
+  .burger::before,
+  .burger::after {
+    transition: none;
   }
 }

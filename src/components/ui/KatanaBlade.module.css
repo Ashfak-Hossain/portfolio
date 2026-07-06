@@ -1,0 +1,47 @@
+.katana {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(2px 6px 8px rgba(20, 17, 15, 0.22));
+}
+
+/* The blade group draws upward out of the guard (GSAP scaleY from here). */
+.bladeBody {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.hamon {
+  opacity: 0.9;
+}
+
+/* --- Wadō Ichimonji: pearl-white blade, black keyline, red-wrapped hilt --- */
+.white {
+  --blade-fill: #f8f5ee;
+  --blade-stroke: var(--ink);
+  --hamon-color: #c9c1b1;
+  --handle-fill: #241d1a;
+  --wrap-color: var(--don-red);
+  --guard-fill: #c39a34;
+}
+
+/* --- Sandai Kitetsu: dark cursed blade, crimson temper + wrap --- */
+.cursed {
+  --blade-fill: #17120e;
+  --blade-stroke: #000000;
+  --hamon-color: #d6412f;
+  --handle-fill: #1a1310;
+  --wrap-color: #7c231a;
+  --guard-fill: #641a12;
+}
+
+/* --- Enma: black haki-charged blade, violet temper (nods to the OneCut) --- */
+.haki {
+  --blade-fill: #0f0b16;
+  --blade-stroke: #000000;
+  --hamon-color: var(--haki-bright);
+  --handle-fill: #140f1f;
+  --wrap-color: #3c2b64;
+  --guard-fill: #2a1f4a;
+}

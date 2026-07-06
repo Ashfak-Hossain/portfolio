@@ -1,0 +1,312 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  border-block: 2px solid var(--ink);
+  padding: clamp(72px, 11vh, 132px) var(--gutter);
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* screentone, faded toward the centre so text stays clean */
+.halftone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--ink) 21%, transparent 23%);
+  background-size: 13px 13px;
+  opacity: 0.05;
+  -webkit-mask: radial-gradient(120% 92% at 50% 42%, transparent 42%, #000 100%);
+  mask: radial-gradient(120% 92% at 50% 42%, transparent 42%, #000 100%);
+}
+
+/* Zoro-green sumi wash pooled behind the blades */
+.inkwash {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  width: min(1040px, 94%);
+  height: 62%;
+  background: radial-gradient(60% 58% at 50% 44%, rgba(31, 122, 63, 0.16), transparent 70%);
+  filter: blur(34px);
+  pointer-events: none;
+}
+
+/* giant faded 三刀流 watermark down the right edge */
+.watermark {
+  position: absolute;
+  right: 1.5%;
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: clamp(120px, 33vh, 340px);
+  line-height: 0.82;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  opacity: 0.035;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Ashura nine-blade ghost fan (centre, faint) */
+.ashura {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  width: clamp(360px, 62vh, 660px);
+  height: auto;
+  color: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Conqueror's Haki lightning */
+.hakiField {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 3;
+}
+.bolt {
+  fill: none;
+  stroke: var(--haki-bright);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.9));
+  opacity: 0;
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+/* --- header --- */
+.head {
+  text-align: center;
+  margin-bottom: clamp(38px, 6vh, 66px);
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.eyebrowRule {
+  width: 42px;
+  height: 2px;
+  background: var(--accent);
+}
+.eyebrowJp {
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--accent);
+}
+.eyebrowEn {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--ink);
+}
+.blurb {
+  margin: 16px auto 0;
+  max-width: 560px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--on-paper-dim);
+}
+
+/* --- opening slash + sparks --- */
+.slash {
+  position: absolute;
+  left: -6%;
+  top: 26%;
+  width: 112%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--ink) 12%, var(--ink) 88%, transparent);
+  transform: rotate(-6deg);
+  transform-origin: left center;
+  box-shadow: 0 0 16px rgba(20, 17, 15, 0.4);
+  z-index: 4;
+  pointer-events: none;
+}
+.sparkField {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.spark {
+  position: absolute;
+  background: var(--don-red);
+  clip-path: polygon(50% 0%, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0% 50%, 42% 42%);
+}
+
+/* --- three-panel manga grid --- */
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 2px solid var(--ink);
+  background: var(--paper);
+}
+.col {
+  position: relative;
+  padding: clamp(24px, 3vw, 42px) clamp(18px, 2.4vw, 32px) clamp(30px, 3.6vh, 46px);
+  border-right: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  transition: background 0.35s ease;
+  --col-aura: var(--ink);
+}
+.col:last-child {
+  border-right: none;
+}
+.colWhite {
+  --col-aura: var(--don-red);
+}
+.colCursed {
+  --col-aura: #d6412f;
+}
+.colHaki {
+  --col-aura: var(--haki-bright);
+}
+.col:hover {
+  background: color-mix(in srgb, var(--col-aura) 7%, transparent);
+}
+
+/* --- blade --- */
+.bladeWrap {
+  position: relative;
+  width: clamp(72px, 9vw, 100px);
+  height: clamp(240px, 34vh, 380px);
+  display: flex;
+  justify-content: center;
+  transition:
+    transform 0.4s var(--ease-back),
+    filter 0.4s ease;
+}
+.col:hover .bladeWrap {
+  transform: translateY(-8px);
+  filter: drop-shadow(0 0 15px var(--col-aura));
+}
+.bladeKanji {
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: clamp(96px, 13vw, 158px);
+  line-height: 1;
+  color: var(--col-aura);
+  opacity: 0.11;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.col:hover .bladeKanji {
+  opacity: 0.18;
+}
+
+/* --- text block --- */
+.colBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sword {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 20px;
+}
+.swordJp {
+  font-family: var(--font-jp);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--col-aura);
+}
+.swordEn {
+  font-family: var(--font-type);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--on-paper-dim);
+}
+.domain {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: clamp(16px, 1.8vw, 22px);
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+.chips {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+.col:hover .chip {
+  border-color: var(--col-aura);
+}
+.chip:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .col {
+    border-right: none;
+    border-bottom: 2px solid var(--ink);
+  }
+  .col:last-child {
+    border-bottom: none;
+  }
+  .watermark {
+    display: none;
+  }
+  .bladeWrap {
+    height: clamp(220px, 40vh, 300px);
+  }
+}

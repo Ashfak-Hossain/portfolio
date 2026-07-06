@@ -7,5 +7,6 @@ export { poster } from './poster';
 export { stats } from './stats';
 export { projects, workBlurb, workHeadingJp } from './work';
 export { oneCut } from './oneCut';
+export { skills, skillsHeading, skillsHeadingJp, skillsBlurb } from './skills';
 export { connect } from './connect';
 export { contact, footer } from './contact';

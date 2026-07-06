@@ -110,3 +110,19 @@ export interface Footer {
   /** Non-affiliation / fan-homage disclaimer shown as footer small-print. */
   disclaimer: string;
 }
+
+/** One of the three blades in the 三刀流 (Santōryū) skills section. */
+export interface SkillBlade {
+  /** Single kanji brushed beside the blade (和 / 鬼 / 閻). */
+  kanji: string;
+  /** Sword name, romaji. */
+  sword: string;
+  /** Sword name in Japanese. */
+  swordJp: string;
+  /** The skill domain this blade stands for. */
+  domain: string;
+  /** Skills grouped under this blade. */
+  tags: string[];
+  /** Visual theme: pearl-white (Wadō), cursed-red (Kitetsu), haki-violet (Enma). */
+  aura: 'white' | 'cursed' | 'haki';
+}
