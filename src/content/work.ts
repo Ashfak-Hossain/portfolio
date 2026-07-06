@@ -12,6 +12,7 @@ export const projects: Project[] = [
     year: '2026',
     span: 7,
     href: 'https://shortn.ashfak.dev/app',
+    github: 'https://github.com/Ashfak-Hossain/shortn',
     image: '/assets/projects/project_shortn.webp',
   },
   // {
@@ -22,6 +23,7 @@ export const projects: Project[] = [
   //   year:
   //   span: 5
   //   href:
+  //   github:
   //   image:
   // },
 ];

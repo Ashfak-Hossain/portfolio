@@ -65,7 +65,10 @@ export interface Project {
   year: string;
   /** Column footprint on the 12-col mosaic (1–12). */
   span: number;
+  /** Live/demo URL — the whole card links here. null = not clickable. */
   href: string | null;
+  /** Source repo URL — renders the "CODE" GitHub button. null = hidden. */
+  github: string | null;
   image: string | null;
 }
 

@@ -14,6 +14,8 @@ interface KatanaSceneProps {
   reduced: boolean;
   /** Incrementing counter that forces a cut (Replay button). */
   cutTrigger: number;
+  /** True while the section is on/near screen — drives the render loop. */
+  active: boolean;
 }
 
 function easeInOut(t: number): number {
@@ -24,6 +26,7 @@ function Rig({ progressRef, onApex, reduced, cutTrigger }: KatanaSceneProps) {
   const group = useRef<THREE.Group>(null);
   const sparks = useRef<SparksHandle>(null);
   const hasCut = useRef(false);
+  const primed = useRef(false);
   const lastTrigger = useRef(cutTrigger);
 
   useFrame((state) => {
@@ -31,6 +34,13 @@ function Rig({ progressRef, onApex, reduced, cutTrigger }: KatanaSceneProps) {
     if (!g) return;
     const p = reduced ? 1 : Math.min(1, Math.max(0, progressRef.current));
     const e = easeInOut(p);
+
+    // If the scene mounts already past the apex (deep-load / scrolled in past
+    // it), treat it as already cut so it doesn't replay a spurious cut+flash.
+    if (!primed.current) {
+      primed.current = true;
+      if (p > 0.5) hasCut.current = true;
+    }
 
     // draw the blade across as the section scrolls through
     g.rotation.z = THREE.MathUtils.lerp(-0.95, -0.12, e);
@@ -77,7 +87,7 @@ export default function KatanaScene(props: KatanaSceneProps) {
       camera={{ position: [0, 0, 6], fov: 35 }}
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
-      frameloop={props.reduced ? 'demand' : 'always'}
+      frameloop={props.active ? 'always' : 'never'}
     >
       <Rig {...props} />
     </Canvas>

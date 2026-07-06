@@ -2,6 +2,7 @@ import { Suspense, lazy, useRef, useState } from 'react';
 import { oneCut } from '../../content';
 import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import { useMotion } from '../../hooks/useMotion';
+import { useInView } from '../../hooks/useInView';
 import { Reveal } from '../ui/Reveal';
 import { Eyebrow } from '../ui/Eyebrow';
 import { KatanaFallback } from '../three/KatanaFallback';
@@ -17,6 +18,10 @@ export function OneCut() {
   const flashRef = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
   const [cutTrigger, setCutTrigger] = useState(0);
+  // Gate the ~885 KB three.js chunk + WebGL Canvas: never load/mount until the
+  // section nears the viewport (hasEntered), and pause the render loop whenever
+  // it's off-screen (visible → `active`). Keeps first paint free of three.js.
+  const { ref: canvasWrapRef, hasEntered, visible } = useInView<HTMLDivElement>('600px 0px');
 
   // Feed section scroll progress to the scene without re-rendering React.
   useGSAP(
@@ -61,8 +66,8 @@ export function OneCut() {
           {oneCut.watermark}
         </div>
 
-        <div className={styles.canvasWrap}>
-          {reduced ? (
+        <div ref={canvasWrapRef} className={styles.canvasWrap}>
+          {reduced || !hasEntered ? (
             sceneFallback
           ) : (
             <SceneBoundary fallback={sceneFallback}>
@@ -72,6 +77,7 @@ export function OneCut() {
                   onApex={flash}
                   reduced={reduced}
                   cutTrigger={cutTrigger}
+                  active={visible}
                 />
               </Suspense>
             </SceneBoundary>
