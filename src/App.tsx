@@ -10,6 +10,7 @@ import { Work } from './components/sections/Work';
 import { OneCut } from './components/sections/OneCut';
 import { Connect } from './components/sections/Connect';
 import { Contact } from './components/sections/Contact';
+import { Analytics } from '@vercel/analytics/next';
 
 export default function App() {
   const { smoothScroll } = useMotion();
@@ -32,6 +33,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <Analytics />
     </>
   );
 }
