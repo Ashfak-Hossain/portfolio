@@ -10,7 +10,7 @@ import { Work } from './components/sections/Work';
 import { OneCut } from './components/sections/OneCut';
 import { Connect } from './components/sections/Connect';
 import { Contact } from './components/sections/Contact';
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
   const { smoothScroll } = useMotion();

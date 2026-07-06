@@ -10,21 +10,37 @@ export function useLenis(enabled: boolean): void {
   useEffect(() => {
     if (!enabled) return;
 
-    const lenis = new Lenis({
-      duration: 1.05,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
+    let lenis: Lenis | null = null;
+    let tick: ((time: number) => void) | null = null;
 
-    lenis.on('scroll', ScrollTrigger.update);
+    // Build Lenis off the critical load path so its construction doesn't add to
+    // main-thread blocking time during first paint. Smooth scroll isn't needed
+    // in the first frame anyway.
+    const start = () => {
+      lenis = new Lenis({
+        duration: 1.05,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+      lenis.on('scroll', ScrollTrigger.update);
+      tick = (time: number) => lenis!.raf(time * 1000);
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
+    };
 
-    const tick = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    if (typeof requestIdleCallback === 'function') {
+      idleId = requestIdleCallback(start, { timeout: 500 });
+    } else {
+      timeoutId = setTimeout(start, 1);
+    }
 
     return () => {
-      gsap.ticker.remove(tick);
-      lenis.destroy();
+      if (idleId !== undefined) cancelIdleCallback(idleId);
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+      if (tick) gsap.ticker.remove(tick);
+      lenis?.destroy();
     };
   }, [enabled]);
 }

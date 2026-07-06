@@ -114,6 +114,16 @@ p {
   width: 100%;
 }
 
+/* Skip style/layout/paint for off-screen sections until they scroll near the
+   viewport. The page stacks 7 heavy sections (masks, blend modes, gradients);
+   rendering them all on load dominated main-thread time. Elements stay in the
+   DOM, so #anchors and Lenis smooth-scroll still resolve. `auto` in
+   contain-intrinsic-size remembers each section's real height once rendered. */
+main > section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 /* Ambient keyframes are co-located in the *.module.css that use them:
    CSS Modules scopes `animation-name` references, so a keyframe defined here
    (global) would not match a scoped reference. Keep each @keyframes in its
