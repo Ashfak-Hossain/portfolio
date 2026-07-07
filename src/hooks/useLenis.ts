@@ -12,6 +12,7 @@ export function useLenis(enabled: boolean): void {
 
     let lenis: Lenis | null = null;
     let tick: ((time: number) => void) | null = null;
+    let cancelled = false;
 
     // Build Lenis off the critical load path so its construction doesn't add to
     // main-thread blocking time during first paint. Smooth scroll isn't needed
@@ -26,6 +27,19 @@ export function useLenis(enabled: boolean): void {
       tick = (time: number) => lenis!.raf(time * 1000);
       gsap.ticker.add(tick);
       gsap.ticker.lagSmoothing(0);
+
+      // Reveal ScrollTriggers are first measured against the fallback fonts —
+      // the Google Fonts stylesheet is deferred (see main.tsx), so the real
+      // fonts swap in *after* the triggers are created. That swap shifts layout
+      // down the page, and the lowest triggers (Blog/Contact) can end up past
+      // the max scroll, so they never fire and their content is stuck at
+      // opacity:0 ("empty after scrolling"). Recompute once Lenis is live and
+      // again once fonts have settled so every reveal resolves to a real
+      // position — a refresh also retro-fires any reveal already scrolled past.
+      ScrollTrigger.refresh();
+      document.fonts.ready.then(() => {
+        if (!cancelled) ScrollTrigger.refresh();
+      });
     };
 
     let idleId: number | undefined;
@@ -37,6 +51,7 @@ export function useLenis(enabled: boolean): void {
     }
 
     return () => {
+      cancelled = true;
       if (idleId !== undefined) cancelIdleCallback(idleId);
       if (timeoutId !== undefined) clearTimeout(timeoutId);
       if (tick) gsap.ticker.remove(tick);

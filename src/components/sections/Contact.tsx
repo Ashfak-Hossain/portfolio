@@ -79,7 +79,7 @@ export function Contact() {
       <div className={styles.inner}>
         <Reveal className={styles.head}>
           <div className={styles.eyebrowWrap}>
-            <Eyebrow align="center">04 — Contact</Eyebrow>
+            <Eyebrow align="center">05 — Contact</Eyebrow>
           </div>
           <h2 className={styles.heading}>{contact.heading}</h2>
           <p className={styles.sub}>{contact.sub}</p>

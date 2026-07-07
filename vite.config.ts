@@ -19,15 +19,12 @@ export default defineConfig({
     // longer bundled). Leave `minify` at the default — forcing 'esbuild' fails
     // the build. Kept as a comment so nobody re-adds minify:'esbuild'.
     cssCodeSplit: true,
-    // The three.js / R3F scene is lazy-loaded into its own chunk, so a large
-    // KatanaScene chunk is expected and fine — it never blocks first paint.
-    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Split stable vendor libs from app code for long-term caching.
-          // three/R3F/drei are intentionally NOT matched here — they must stay
-          // in the lazy KatanaScene chunk so they never hit the initial load.
+          // Split stable vendor libs from app code for long-term caching, so a
+          // content-only change never busts the (large, rarely-changing) React
+          // and GSAP chunks.
           if (!id.includes('node_modules')) return;
           if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id))
             return 'react-vendor';
