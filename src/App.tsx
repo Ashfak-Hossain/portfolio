@@ -11,6 +11,7 @@ import { Skills } from './components/sections/Skills';
 import { Connect } from './components/sections/Connect';
 import { Contact } from './components/sections/Contact';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 export default function App() {
   const { smoothScroll } = useMotion();
@@ -34,6 +35,7 @@ export default function App() {
       </main>
       <Footer />
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }
