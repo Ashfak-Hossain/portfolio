@@ -16,7 +16,7 @@ export function Connect() {
 
       <div className={styles.inner}>
         <Reveal>
-          <Eyebrow tone="paper">04 — The Log</Eyebrow>
+          <Eyebrow tone="paper" num="四">The Log</Eyebrow>
           <a
             ref={blogRef}
             className={styles.blogLink}

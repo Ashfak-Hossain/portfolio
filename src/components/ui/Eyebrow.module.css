@@ -1,15 +1,11 @@
 .eyebrow {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   font-size: 12px;
   letter-spacing: 3px;
   font-weight: 500;
   text-transform: uppercase;
-}
-
-.eyebrow[data-align='center'] {
-  justify-content: center;
 }
 
 .eyebrow[data-tone='ink'] {
@@ -32,4 +28,17 @@
 
 .eyebrow[data-tone='haki'] .rule {
   background: var(--haki);
+}
+
+/* Japanese section numeral (一, 二, 三 …) — rendered in the JP face, a touch
+   larger than the label so it reads as a manga chapter number. */
+.num {
+  font-family: var(--font-jp);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: normal;
+  line-height: 1;
+}
+.dash {
+  opacity: 0.55;
 }

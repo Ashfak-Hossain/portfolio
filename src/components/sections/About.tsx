@@ -12,7 +12,7 @@ export function About() {
 
       <div className={styles.grid}>
         <Reveal className={styles.copy}>
-          <Eyebrow tone="paper">01 — About</Eyebrow>
+          <Eyebrow tone="paper" num="一">About</Eyebrow>
           <h2 className={styles.heading}>
             {about.heading[0]}
             <br />

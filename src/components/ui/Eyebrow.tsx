@@ -3,17 +3,27 @@ import styles from './Eyebrow.module.css';
 
 interface EyebrowProps {
   children: ReactNode;
-  align?: 'start' | 'center';
+  num?: string; // Japanese no. 一, 二, 三
   tone?: 'ink' | 'paper' | 'haki';
 }
 
-/** The "01 — ABOUT" style section label with a short rule. */
-export function Eyebrow({ children, align = 'start', tone = 'ink' }: EyebrowProps) {
+/** The "一 — About" style section label: a short rule, a JP numeral, the label.
+ *  Always left-aligned so every section reads the same. */
+export function Eyebrow({ children, num, tone = 'ink' }: EyebrowProps) {
   return (
-    <div className={styles.eyebrow} data-align={align} data-tone={tone}>
+    <div className={styles.eyebrow} data-tone={tone}>
       <span className={styles.rule} />
+      {num && (
+        <>
+          <span lang="ja" className={styles.num}>
+            {num}
+          </span>
+          <span aria-hidden="true" className={styles.dash}>
+            —
+          </span>
+        </>
+      )}
       <span>{children}</span>
-      {align === 'center' && <span className={styles.rule} />}
     </div>
   );
 }

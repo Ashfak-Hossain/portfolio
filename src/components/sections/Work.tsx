@@ -10,7 +10,7 @@ export function Work() {
       <div className={styles.inner}>
         <Reveal className={styles.header}>
           <div>
-            <Eyebrow>02 — Selected Work</Eyebrow>
+            <Eyebrow num="二">Selected Work</Eyebrow>
             <h2 className={styles.heading}>
               The Arc Log <span className={styles.headingJp}>{workHeadingJp}</span>
             </h2>
