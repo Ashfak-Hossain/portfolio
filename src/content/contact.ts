@@ -6,8 +6,9 @@ export const contact: Contact = {
   successJp: '送信完了',
   success: 'MESSAGE SENT',
   successNote: "Thanks — I'll reply within a day or two.",
-  // for prod
-  endpoint: null,
+  // POSTs to the Vercel serverless function in /api/contact, which emails via
+  // your Gmail. Set to null to fall back to the visitor's mail client (mailto).
+  endpoint: '/api/contact',
 };
 
 export const footer: Footer = {
