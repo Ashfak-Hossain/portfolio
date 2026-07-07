@@ -16,7 +16,9 @@ export function Connect() {
 
       <div className={styles.inner}>
         <Reveal>
-          <Eyebrow tone="paper" num="四">The Log</Eyebrow>
+          <Eyebrow tone="paper" num="四">
+            The Log
+          </Eyebrow>
           <a
             ref={blogRef}
             className={styles.blogLink}
@@ -34,8 +36,8 @@ export function Connect() {
 
         <Reveal className={styles.socialGrid} delay={0.1}>
           {connect.links.map((link) => {
-            // http(s) links open in a new tab;
-            const newTab = link.href?.startsWith('http');
+            const newTab =
+              !!link.href && (link.href.startsWith('http') || link.href.endsWith('.pdf'));
             return (
               <a
                 key={link.n}

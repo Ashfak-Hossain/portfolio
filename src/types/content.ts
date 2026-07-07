@@ -67,7 +67,7 @@ export interface Project {
   span: number;
   /** Live/demo URL — the whole card links here. null = not clickable. */
   href: string | null;
-  /** Source repo URL — renders the "CODE" GitHub button. null = hidden. */
+  /** Source repo URL. null = hidden. */
   github: string | null;
   image: string | null;
 }
@@ -82,6 +82,7 @@ export interface Connect {
   blurb: string;
   links: SocialLink[];
   blogHref: string | null;
+  email: string;
 }
 
 export interface Contact {

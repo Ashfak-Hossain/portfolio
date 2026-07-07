@@ -29,7 +29,7 @@ export function Contact() {
   const describedBy = error ? 'form-error' : undefined;
   const invalid = error ? true : undefined;
 
-  const emailHref = connect.links.find((l) => l.label === 'EMAIL')?.href ?? '';
+  const toEmail = connect.email;
 
   // Submit path:
   //  • contact.endpoint set (Formspree) → POST the message in-page.
@@ -47,10 +47,10 @@ export function Contact() {
     }
 
     if (!contact.endpoint) {
-      if (emailHref) {
+      if (toEmail) {
         const body = encodeURIComponent(`${message}\n\n— ${name} <${email}>`);
         const subject = encodeURIComponent('New arc — portfolio contact');
-        window.location.href = `${emailHref}?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:${toEmail}?subject=${subject}&body=${body}`;
       }
       setSent(true);
       return;
