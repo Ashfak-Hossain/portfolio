@@ -69,7 +69,7 @@ export interface ProjectMetric {
 export type PanelTone = 'green' | 'red' | 'violet';
 
 export interface Project {
-  /** Anchor id — the panel renders as `#project-<slug>` (skills proof links). */
+  /** Anchor id — the panel renders as `#project-<slug>`. */
   slug: string;
   n: string;
   name: string;
@@ -138,8 +138,6 @@ export interface SkillBlade {
   domain: string;
   /** Skills grouped under this blade. */
   tags: string[];
-  /** Projects that prove this blade — `slug` matches a `Project.slug`. */
-  proof: { slug: string; label: string }[];
   /** Visual theme: pearl-white (Wadō), cursed-red (Kitetsu), haki-violet (Enma). */
   aura: 'white' | 'cursed' | 'haki';
 }

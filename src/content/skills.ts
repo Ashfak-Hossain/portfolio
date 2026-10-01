@@ -13,10 +13,6 @@ export const skills: SkillBlade[] = [
     domain: 'LANGUAGES',
     tags: ['C++', 'Go', 'TypeScript / JS', 'Python', 'SQL'],
     aura: 'white',
-    proof: [
-      { slug: 'shortn', label: 'shortn' },
-      { slug: 'nooverlap', label: 'noOverlap' },
-    ],
   },
   {
     kanji: '鬼',
@@ -34,10 +30,6 @@ export const skills: SkillBlade[] = [
       'OpenTelemetry',
     ],
     aura: 'cursed',
-    proof: [
-      { slug: 'shortn', label: 'shortn' },
-      { slug: 'echoandaura', label: 'Echo & Aura' },
-    ],
   },
   {
     kanji: '閻',
@@ -56,9 +48,5 @@ export const skills: SkillBlade[] = [
       'Vitest / Playwright',
     ],
     aura: 'haki',
-    proof: [
-      { slug: 'nooverlap', label: 'noOverlap' },
-      { slug: 'echoandaura', label: 'Echo & Aura' },
-    ],
   },
 ];
