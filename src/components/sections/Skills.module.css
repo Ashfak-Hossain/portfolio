@@ -163,13 +163,22 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 2px solid var(--ink);
   background: var(--paper);
+}
+/* Hand-inked frame + dividers: drawn on their own layers and roughened by
+   the shared #ink-rough filter (InkDefs), so the blades and text stay crisp. */
+.grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: 2.5px solid var(--ink);
+  filter: url(#ink-rough);
+  pointer-events: none;
 }
 .col {
   position: relative;
   padding: clamp(24px, 3vw, 42px) clamp(18px, 2.4vw, 32px) clamp(30px, 3.6vh, 46px);
-  border-right: 2px solid var(--ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -178,8 +187,19 @@
   transition: background 0.35s ease;
   --col-aura: var(--ink);
 }
-.col:last-child {
-  border-right: none;
+.col::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 1px;
+  z-index: 3;
+  border-right: 2.5px solid var(--ink);
+  filter: url(#ink-rough);
+  pointer-events: none;
+}
+.col:last-child::after {
+  display: none;
 }
 .colWhite {
   --col-aura: var(--don-red);
@@ -297,12 +317,13 @@
   .grid {
     grid-template-columns: 1fr;
   }
-  .col {
+  .col::after {
+    top: auto;
+    right: 0;
+    bottom: 1px;
+    left: 0;
     border-right: none;
-    border-bottom: 2px solid var(--ink);
-  }
-  .col:last-child {
-    border-bottom: none;
+    border-bottom: 2.5px solid var(--ink);
   }
   .watermark {
     display: none;

@@ -9,6 +9,13 @@ export function Footer() {
 
   return (
     <footer className={styles.footer}>
+      {/* Chapter-end mark, as printed at the close of a manga chapter. */}
+      <p className={styles.tbc}>
+        <span className={styles.tbcJp} lang="ja">
+          つづく
+        </span>
+        <span className={styles.tbcEn}>To be continued</span>
+      </p>
       <div className={styles.row}>
         <span>{footer.copyright}</span>
         <span className={styles.colophon}>{footer.colophon}</span>

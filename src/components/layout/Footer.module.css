@@ -33,3 +33,35 @@
   font-weight: 700;
   will-change: transform;
 }
+
+/* つづく — the arrow-shaped chapter-end box */
+.tbc {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 30px;
+}
+.tbc > span {
+  display: inline-flex;
+  align-items: center;
+}
+.tbcJp {
+  padding: 8px 14px 8px 16px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.tbcEn {
+  padding: 0 34px 0 14px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+  border-left: 2px solid var(--ink);
+}
