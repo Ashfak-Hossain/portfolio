@@ -91,7 +91,7 @@ export interface Contact {
   successJp: string;
   success: string;
   successNote: string;
-  /** Form POST endpoint (Formspree/Getform). null = decorative, sends nothing. */
+  /** Form POST endpoint (/api/contact). null = fall back to a mailto: link. */
   endpoint: string | null;
 }
 
