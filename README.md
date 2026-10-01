@@ -56,7 +56,7 @@ All copy lives in `src/content/`, typed by `src/types/content.ts`:
 | File | What it holds |
 | --- | --- |
 | `work.ts` | Project panels: metric, status, tone, links, screenshot |
-| `skills.ts` | The three blades, their tags, and the projects that prove them |
+| `skills.ts` | The three blades and their skill tags |
 | `hero.ts`, `about.ts`, `stats.ts`, `connect.ts`, `contact.ts` | Section copy |
 
 To add a project screenshot, drop a `.webp` into `public/assets/projects/` and
