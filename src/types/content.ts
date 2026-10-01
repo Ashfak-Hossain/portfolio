@@ -36,10 +36,30 @@ export interface Hero {
   ledeEmphasis: string;
 }
 
+/**
+ * Artwork for a manga panel. Either a set of widths of the same picture
+ * (`src` contains `{w}`, e.g. '/assets/manga/about-face-{w}.webp') or a
+ * single file — drop painted art in by pointing `src` at it and removing
+ * `widths`.
+ */
+export interface PanelArt {
+  src: string;
+  /** Widths available for a `{w}` pattern, smallest first. */
+  widths?: number[];
+  /** Width / height — reserves the panel's space before the image loads. */
+  aspect: number;
+}
+
 export interface About {
+  /** Rendered as two narration boxes: the line, then the beat ("Eventually."). */
   heading: [string, string];
   paragraphs: string[];
+  /** Spoken in a speech bubble from the face panel. */
   quote: string;
+  /** The wide opening panel. `narrow` is the crop used on phones. */
+  splash: { wide: PanelArt; narrow: PanelArt; alt: string; sfx: string };
+  /** The panel the quote is spoken from. */
+  face: PanelArt & { alt: string };
 }
 
 export interface Poster {

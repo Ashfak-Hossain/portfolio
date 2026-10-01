@@ -10,6 +10,7 @@ import { Work } from './components/sections/Work';
 import { Skills } from './components/sections/Skills';
 import { Connect } from './components/sections/Connect';
 import { Contact } from './components/sections/Contact';
+import { InkDefs } from './components/ui/InkDefs';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
@@ -19,6 +20,7 @@ export default function App() {
 
   return (
     <>
+      <InkDefs />
       <a className="skip-link" href="#main">
         Skip to content
       </a>
