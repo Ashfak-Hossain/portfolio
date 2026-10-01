@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { Fragment, useRef } from 'react';
 import { skills, skillsHeading, skillsHeadingJp, skillsBlurb } from '../../content';
 import { gsap, useGSAP } from '../../lib/gsap';
 import { useMotion } from '../../hooks/useMotion';
@@ -223,6 +223,26 @@ export function Skills() {
                     </li>
                   ))}
                 </ul>
+                {b.proof.length > 0 && (
+                  <p className={styles.proof}>
+                    <span className={styles.proofSeal} lang="ja" aria-hidden="true">
+                      証
+                    </span>
+                    <span className={styles.proofLabel}>Proven in</span>
+                    {b.proof.map((p, i) => (
+                      <Fragment key={p.slug}>
+                        {i > 0 && (
+                          <span className={styles.proofSep} aria-hidden="true">
+                            ·
+                          </span>
+                        )}
+                        <a className={styles.proofLink} href={`#project-${p.slug}`}>
+                          {p.label}
+                        </a>
+                      </Fragment>
+                    ))}
+                  </p>
+                )}
               </div>
             </article>
           ))}

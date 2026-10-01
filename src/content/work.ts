@@ -1,29 +1,61 @@
 import type { Project } from '../types/content';
 
-export const workBlurb = 'Two systems, each with a proof behind it.';
+export const workBlurb = 'Three systems, each with a proof behind it.';
 export const workHeadingJp = '作品集';
 
 export const projects: Project[] = [
   {
+    slug: 'shortn',
     n: '01',
     name: 'DISTRIBUTED URL SHORTENER',
     stack: 'Go · PostgreSQL · Redis · k8s',
     desc: 'A distributed URL shortener with caching, message queue, resilience, observability, and a Kubernetes/GitOps deployment',
     year: '2026',
     span: 7,
+    status: 'LIVE DEMO',
+    metric: { value: '172 → 11 ms', label: 'p99 redirect, one keepalive fix' },
+    tone: 'red',
+    kanji: '短',
+    sfx: 'シュッ',
     href: 'https://shortn.ashfak.dev/app',
     github: 'https://github.com/Ashfak-Hossain/shortn',
+    caseStudy: null,
     image: '/assets/projects/project_shortn.webp',
   },
-  // {
-  //   n:
-  //   name:
-  //   stack:
-  //   desc:
-  //   year:
-  //   span: 5
-  //   href:
-  //   github:
-  //   image:
-  // },
+  {
+    slug: 'nooverlap',
+    n: '02',
+    name: 'NOOVERLAP',
+    stack: 'NestJS · PostgreSQL · Redis · Outbox',
+    desc: 'A booking platform where double-booking is unrepresentable. A Postgres exclusion constraint, not application code, guarantees it.',
+    year: '2026',
+    span: 5,
+    status: 'LIVE DEMO',
+    metric: { value: '10,000 → 0', label: 'concurrent bookings → overlaps' },
+    tone: 'green',
+    kanji: '唯',
+    sfx: 'ガキン',
+    href: 'https://nooverlap.ashfak.dev',
+    github: 'https://github.com/Ashfak-Hossain/noOverlap',
+    caseStudy: null,
+    image: null,
+  },
+  {
+    slug: 'echoandaura',
+    n: '03',
+    name: 'ECHO & AURA',
+    stack: 'Next.js · PostgreSQL · Redis · BullMQ',
+    desc: 'Ticketing for a live-events organizer in Dhaka. bKash payments verified by hand, tickets by email, and a QR door scanner that works offline.',
+    year: '2026',
+    span: 12,
+    status: 'IN PRODUCTION',
+    metric: { value: '0 OVERSOLD', label: '200 buyers rush 100 seats at once' },
+    tone: 'violet',
+    kanji: '響',
+    sfx: 'ドン',
+    href: 'https://echoandaura.com',
+    github: null,
+    caseStudy: 'https://github.com/Ashfak-Hossain/EchoAndAura/blob/main/docs/ARCHITECTURE.md',
+    image: null,
+  },
 ];

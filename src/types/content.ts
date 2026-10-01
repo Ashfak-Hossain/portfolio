@@ -57,18 +57,42 @@ export interface StatItem {
   label: string;
 }
 
+/** The headline number on a project panel — the proof, not the pitch. */
+export interface ProjectMetric {
+  /** Short and loud: "10,000 → 0", "0 OVERSOLD". */
+  value: string;
+  /** What the number means, in a few words. */
+  label: string;
+}
+
+/** Panel accent on the Work page. */
+export type PanelTone = 'green' | 'red' | 'violet';
+
 export interface Project {
+  /** Anchor id — the panel renders as `#project-<slug>` (skills proof links). */
+  slug: string;
   n: string;
   name: string;
   stack: string;
   desc: string;
   year: string;
-  /** Column footprint on the 12-col mosaic (1–12). */
+  /** Column footprint on the 12-col manga page (1–12). */
   span: number;
+  /** Badge in the panel corner ("LIVE DEMO", "IN PRODUCTION"). null = none. */
+  status: string | null;
+  metric: ProjectMetric | null;
+  tone: PanelTone;
+  /** Big kanji brushed across the panel while there's no screenshot. */
+  kanji: string;
+  /** Katakana sound effect that bursts onto the panel on hover (ドン, ガキン). */
+  sfx: string;
   /** Live/demo URL — the whole card links here. null = not clickable. */
   href: string | null;
   /** Source repo URL. null = hidden. */
   github: string | null;
+  /** Write-up / architecture docs. null = hidden. */
+  caseStudy: string | null;
+  /** Screenshot. null = the kanji placeholder panel. */
   image: string | null;
 }
 
@@ -114,6 +138,8 @@ export interface SkillBlade {
   domain: string;
   /** Skills grouped under this blade. */
   tags: string[];
+  /** Projects that prove this blade — `slug` matches a `Project.slug`. */
+  proof: { slug: string; label: string }[];
   /** Visual theme: pearl-white (Wadō), cursed-red (Kitetsu), haki-violet (Enma). */
   aura: 'white' | 'cursed' | 'haki';
 }

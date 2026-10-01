@@ -43,3 +43,11 @@
   grid-auto-rows: 200px;
   gap: 14px;
 }
+
+/* Stacked panels size to their content — a fixed 200px track would clip the
+   caption under the next panel. */
+@media (max-width: 900px) {
+  .grid {
+    grid-auto-rows: auto;
+  }
+}
