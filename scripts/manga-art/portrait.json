@@ -1,0 +1,31 @@
+{
+  "source": "public/assets/ashfak.jpeg",
+  "outDir": "public/assets/manga",
+  "mask": [
+    { "label": "pr_fg", "ellipse": [370, 470, 250, 430] },
+    { "label": "pr_fg", "rect": [0, 780, 900, 1197] },
+    { "label": "bg", "rect": [680, 0, 900, 780] },
+    { "label": "bg", "rect": [0, 0, 110, 700] },
+    { "label": "bg", "rect": [0, 0, 900, 30] },
+    { "label": "fg", "ellipse": [360, 520, 150, 230] },
+    { "label": "fg", "rect": [60, 1000, 840, 1197] },
+    { "label": "bg", "poly": [[610, 760], [900, 760], [900, 985], [800, 922], [700, 860], [610, 812]] }
+  ],
+  "tones": {
+    "black": { "default": 0.2, "ramp": [[820, 880, 0.3]] },
+    "highlight": 0.62
+  },
+  "outputs": [
+    { "name": "about-eyes-wide", "crop": [76, 376, 588, 168], "widths": [1280, 1920, 2560], "dotsAcross": 175 },
+    { "name": "about-eyes", "crop": [140, 345, 460, 230], "widths": [640, 960, 1280], "dotsAcross": 82 },
+    { "name": "about-face", "crop": [120, 320, 500, 500], "widths": [480, 720, 960], "dotsAcross": 50 },
+    {
+      "name": "og-portrait",
+      "outDir": "scripts/og",
+      "crop": [20, 20, 840, 927],
+      "widths": [520],
+      "dotsAcross": 48,
+      "focus": { "center": [368, 440], "radius": [300, 470], "count": 240 }
+    }
+  ]
+}
