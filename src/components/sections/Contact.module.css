@@ -90,6 +90,15 @@
   resize: vertical;
 }
 
+/* Honeypot — off-screen rather than display:none, which some bots skip. */
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .actions {
   display: flex;
   align-items: center;

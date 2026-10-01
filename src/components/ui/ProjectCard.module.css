@@ -1,11 +1,59 @@
+/* One manga panel. Panels that share a row are cut on their touching edges
+   so the gutter between them runs on a slant, like a real manga page. A
+   cut-left panel tucks under its neighbour's cut (negative margin) so the
+   slanted gutter stays the same width as the grid gap. */
 .card {
+  --slant: 34px;
+  --tone: var(--accent-strong);
+  --pad-l: 0px;
+  --pad-r: 0px;
   grid-row: span 2;
   position: relative;
-  border: 2px solid var(--ink);
-  overflow: hidden;
   background: var(--ink);
-  display: block;
+  clip-path: var(--clip, none);
   will-change: transform, opacity;
+}
+.card[data-tone='green'] {
+  --tone: var(--accent-strong);
+}
+.card[data-tone='red'] {
+  --tone: #e2513f;
+}
+.card[data-tone='violet'] {
+  --tone: var(--haki-bright);
+}
+
+.card[data-cut-right] {
+  --pad-r: var(--slant);
+  --clip: polygon(0 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+}
+.card[data-cut-left] {
+  --pad-l: var(--slant);
+  --clip: polygon(var(--slant) 0, 100% 0, 100% 100%, 0 100%);
+  margin-left: calc(-1 * var(--slant));
+}
+.card[data-cut-left][data-cut-right] {
+  --clip: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+}
+
+/* tone stripe that inks across the top edge on hover */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  z-index: 4;
+  background: var(--tone);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s var(--ease-out-expo);
+  pointer-events: none;
+}
+.card:hover::before,
+.card:focus-within::before {
+  transform: scaleX(1);
 }
 
 .cardMain {
@@ -15,53 +63,70 @@
   text-decoration: none;
   color: inherit;
 }
-
-/* "CODE" → source repo. Its own link so it never nests inside the live-URL
-   anchor; always visible (mobile-friendly), goes Zoro-green on hover. */
-.codeLink {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 11px;
-  background: rgba(20, 17, 15, 0.7);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(244, 241, 233, 0.3);
-  color: var(--paper);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-decoration: none;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
-}
-.codeLink svg {
-  width: 15px;
-  height: 15px;
-  display: block;
-}
-.codeLink:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: translateY(-1px);
+.cardMain:focus-visible {
+  outline: 3px solid var(--tone);
+  outline-offset: -8px;
 }
 
-.halftone {
+/* --- art --- */
+.art {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(var(--paper) 19%, transparent 21%);
-  background-size: 12px 12px;
-  opacity: 0.07;
-  pointer-events: none;
+  overflow: hidden;
+}
+.art > * {
+  transition: transform 0.6s var(--ease-out-expo);
+}
+.card:hover .art > * {
+  transform: scale(1.04);
 }
 
+/* Placeholder until a screenshot lands: screentone + a brushed kanji. */
+.placeholderArt {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 85% 10%, color-mix(in srgb, var(--tone) 22%, transparent), transparent 60%),
+    var(--surface-dark);
+}
+.placeholderArt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--tone) 18%, transparent 21%);
+  background-size: 11px 11px;
+  opacity: 0.22;
+  -webkit-mask: linear-gradient(200deg, #000 10%, transparent 60%);
+  mask: linear-gradient(200deg, #000 10%, transparent 60%);
+}
+.placeholderArt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -62deg,
+    transparent 0 22px,
+    rgba(244, 241, 233, 0.035) 22px 24px
+  );
+}
+.bigKanji {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: clamp(150px, 20vw, 290px);
+  line-height: 1;
+  /* Solid fill, not an outline: CJK glyphs have overlapping contours that a
+     text-stroke traces as a tangle of inner lines. */
+  color: var(--tone);
+  opacity: 0.16;
+  text-shadow: 10px 10px 0 rgba(0, 0, 0, 0.35);
+  user-select: none;
+}
+
+/* --- speed lines (hover) --- */
 .speedlines {
   position: absolute;
   top: 50%;
@@ -80,57 +145,271 @@
   transition: opacity 0.35s ease;
   pointer-events: none;
 }
-
 .card:hover .speedlines {
-  opacity: 0.5;
+  opacity: 0.45;
 }
 
+/* --- katakana SFX burst (ドン!) --- */
+.sfx {
+  position: absolute;
+  top: 18%;
+  right: calc(7% + var(--pad-r));
+  z-index: 2;
+  font-family: var(--font-jp);
+  font-weight: 900;
+  font-size: clamp(54px, 6.5vw, 104px);
+  line-height: 1;
+  color: var(--tone);
+  -webkit-text-stroke: 3px var(--paper);
+  paint-order: stroke fill;
+  text-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(-11deg) scale(0.35);
+  opacity: 0;
+  transition:
+    transform 0.4s var(--ease-back),
+    opacity 0.18s ease;
+  pointer-events: none;
+  user-select: none;
+}
+.card:hover .sfx,
+.cardMain:focus-visible .sfx {
+  opacity: 1;
+  transform: rotate(-11deg) scale(1);
+}
+
+/* --- chapter tag + status (top-left) --- */
+.tag {
+  position: absolute;
+  top: 14px;
+  left: calc(14px + var(--pad-l));
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  pointer-events: none;
+}
+.chapter,
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  line-height: 1;
+}
+.chapter {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--tone);
+}
+.chapterJp {
+  font-family: var(--font-jp);
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+.status {
+  background: rgba(20, 17, 15, 0.72);
+  color: var(--paper);
+  border: 1px solid var(--tone);
+}
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tone);
+  box-shadow: 0 0 0 0 var(--tone);
+  animation: pulse 2s ease-out infinite;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--tone) 70%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+}
+
+/* --- actions (top-right): own links so they never nest in the card link --- */
+.actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+}
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px;
+  background: rgba(20, 17, 15, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(244, 241, 233, 0.3);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+.action svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+.action:hover {
+  background: var(--tone);
+  border-color: var(--tone);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+.action:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 2px;
+}
+
+/* --- caption --- */
 .caption {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 16px 18px;
+  z-index: 3;
+  padding: 48px calc(20px + var(--pad-r)) 18px 20px;
   background: linear-gradient(
     to top,
-    rgba(20, 17, 15, 0.96),
-    rgba(20, 17, 15, 0.55) 70%,
+    rgba(20, 17, 15, 0.97),
+    rgba(20, 17, 15, 0.82) 55%,
     transparent
   );
   color: var(--paper);
   pointer-events: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
-
 .capTop {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  gap: 12px;
   font-size: 11px;
   letter-spacing: 2px;
   color: var(--line-dim);
 }
 .capMeta {
   letter-spacing: 1px;
+  text-align: right;
 }
-.capName {
+
+.metric {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: 14px;
+  row-gap: 2px;
+  margin: 4px 0 2px;
+}
+.metricValue {
+  display: inline-block;
+  font-family: var(--font-mono);
   font-weight: 800;
-  font-size: clamp(15px, 1.6vw, 22px);
+  font-size: clamp(26px, 3.2vw, 46px);
+  line-height: 1;
+  letter-spacing: -1px;
+  color: var(--tone);
+  transform: skewX(-8deg);
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.metricLabel {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--on-ink-dim);
+}
+
+.capName {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(16px, 1.7vw, 24px);
   letter-spacing: -0.3px;
   line-height: 1.05;
 }
 .capDesc {
-  font-size: 12px;
-  color: #c8c2b6;
-  line-height: 1.45;
+  margin: 0;
+  max-width: 68ch;
+  font-size: 12.5px;
+  color: #cfc9bd;
+  line-height: 1.5;
+}
+
+@media (hover: none) {
+  .sfx {
+    opacity: 0.9;
+    transform: rotate(-11deg) scale(0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card::before,
+  .art > *,
+  .sfx,
+  .speedlines {
+    transition: opacity 0.2s ease;
+  }
+  .card:hover .art > * {
+    transform: none;
+  }
+  .card:hover .sfx,
+  .cardMain:focus-visible .sfx {
+    transform: rotate(-11deg) scale(1);
+  }
+  .statusDot {
+    animation: none;
+  }
 }
 
 @media (max-width: 900px) {
   .card {
     grid-column: span 12 !important;
     grid-row: auto;
-    min-height: 240px;
+    min-height: 380px;
+    clip-path: none;
+    margin-left: 0 !important;
+    --pad-l: 0px !important;
+    --pad-r: 0px !important;
+  }
+  .sfx {
+    top: 22%;
+  }
+}
+
+/* Phones: chapter tag and action buttons would collide on one line, so the
+   actions drop to a second row under the tag. */
+@media (max-width: 520px) {
+  .actions {
+    top: 50px;
+    left: 14px;
+    right: auto;
+  }
+  .tag {
+    right: 14px;
+  }
+  .sfx {
+    top: 30%;
   }
 }

@@ -5,10 +5,20 @@ import { useMotion } from '../../hooks/useMotion';
 import { ImageSlot } from './ImageSlot';
 import styles from './ProjectCard.module.css';
 
+/** Which panel edges meet a neighbour on the same row (and get slanted). */
+export interface PanelCut {
+  left: boolean;
+  right: boolean;
+}
+
 interface ProjectCardProps {
   project: Project;
   index: number;
+  cut: PanelCut;
 }
+
+const JP_NUM = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+const METRIC_CHARS = '0123456789→';
 
 /** GitHub octocat mark. */
 function GitHubMark() {
@@ -19,10 +29,35 @@ function GitHubMark() {
   );
 }
 
-/** One mosaic cell in the work grid. Reveals with a per-index stagger. */
-export function ProjectCard({ project, index }: ProjectCardProps) {
+/** Open-book mark for the case-study link. */
+function BookMark() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M2 5c3-1.5 6.5-1.5 10 1 3.5-2.5 7-2.5 10-1v14c-3-1.5-6.5-1.5-10 1-3.5-2.5-7-2.5-10-1z" />
+      <path d="M12 6v14" />
+    </svg>
+  );
+}
+
+/**
+ * One manga panel on the Work page: chapter tag, the art (screenshot or a
+ * brushed kanji until there is one), the proof metric, and a katakana SFX
+ * that bursts in on hover. Reveals with a per-index stagger; the metric
+ * decodes like the hero name.
+ */
+export function ProjectCard({ project, index, cut }: ProjectCardProps) {
   const ref = useRef<HTMLElement>(null);
   const { reduced } = useMotion();
+  const descId = `project-${project.slug}-desc`;
 
   useGSAP(
     () => {
@@ -32,48 +67,98 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         gsap.set(el, { opacity: 1, y: 0 });
         return;
       }
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: 34 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          delay: index * 0.05,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 92%', once: true },
-        },
-      );
+      const metric = el.querySelector<HTMLElement>('[data-metric]');
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+        delay: index * 0.08,
+      });
+      tl.fromTo(el, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' });
+      if (metric) {
+        tl.to(
+          metric,
+          {
+            duration: 0.9,
+            ease: 'none',
+            scrambleText: {
+              text: metric.textContent ?? '',
+              chars: METRIC_CHARS,
+              revealDelay: 0.2,
+              speed: 0.6,
+            },
+          },
+          0.25,
+        );
+      }
     },
     { scope: ref, dependencies: [reduced, index] },
   );
 
+  const chapterJp = `第${JP_NUM[index] ?? project.n}話`;
+
   const body = (
     <>
-      <ImageSlot
-        src={project.image}
-        alt={`${project.name} screenshot`}
-        placeholder="// drop screenshot"
-      />
-      {!project.image && <div className={styles.halftone} aria-hidden="true" />}
+      <div className={styles.art}>
+        {project.image ? (
+          <ImageSlot src={project.image} alt={`${project.name} screenshot`} />
+        ) : (
+          <div className={styles.placeholderArt} aria-hidden="true">
+            <span className={styles.bigKanji} lang="ja">
+              {project.kanji}
+            </span>
+          </div>
+        )}
+      </div>
       <div className={styles.speedlines} aria-hidden="true" />
+      <span className={styles.sfx} lang="ja" aria-hidden="true">
+        {project.sfx}
+      </span>
+
+      <div className={styles.tag}>
+        <span className={styles.chapter}>
+          <span lang="ja" className={styles.chapterJp}>
+            {chapterJp}
+          </span>
+          <span>CH.{project.n}</span>
+        </span>
+        {project.status && (
+          <span className={styles.status}>
+            <span className={styles.statusDot} aria-hidden="true" />
+            {project.status}
+          </span>
+        )}
+      </div>
+
       <div className={styles.caption}>
         <div className={styles.capTop}>
-          <span>
-            {project.n} / {project.year}
-          </span>
+          <span>{project.year}</span>
           <span className={styles.capMeta}>{project.stack}</span>
         </div>
-        <div className={styles.capName}>{project.name}</div>
-        <div className={styles.capDesc}>{project.desc}</div>
+        {project.metric && (
+          <div className={styles.metric}>
+            <span className={styles.metricValue} data-metric>
+              {project.metric.value}
+            </span>
+            <span className={styles.metricLabel}>{project.metric.label}</span>
+          </div>
+        )}
+        <h3 className={styles.capName}>{project.name}</h3>
+        <p className={styles.capDesc} id={descId}>
+          {project.desc}
+        </p>
       </div>
     </>
   );
 
-  const gridColumn = `span ${project.span}`;
-
   return (
-    <article ref={ref} className={styles.card} style={{ gridColumn, opacity: 0 }}>
+    <article
+      ref={ref}
+      id={`project-${project.slug}`}
+      className={styles.card}
+      data-tone={project.tone}
+      data-cut-left={cut.left || undefined}
+      data-cut-right={cut.right || undefined}
+      style={{ gridColumn: `span ${project.span}`, opacity: 0 }}
+    >
       {project.href ? (
         <a
           className={styles.cardMain}
@@ -81,6 +166,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           target="_blank"
           rel="noreferrer"
           aria-label={`${project.name} — open live project`}
+          aria-describedby={descId}
         >
           {body}
         </a>
@@ -88,17 +174,33 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         <div className={styles.cardMain}>{body}</div>
       )}
 
-      {project.github && (
-        <a
-          className={styles.codeLink}
-          href={project.github}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`${project.name} — source code on GitHub`}
-        >
-          <GitHubMark />
-          <span>CODE</span>
-        </a>
+      {(project.github || project.caseStudy) && (
+        <div className={styles.actions}>
+          {project.caseStudy && (
+            <a
+              className={styles.action}
+              href={project.caseStudy}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${project.name} — case study`}
+            >
+              <BookMark />
+              <span>CASE STUDY</span>
+            </a>
+          )}
+          {project.github && (
+            <a
+              className={styles.action}
+              href={project.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${project.name} — source code on GitHub`}
+            >
+              <GitHubMark />
+              <span>CODE</span>
+            </a>
+          )}
+        </div>
       )}
     </article>
   );

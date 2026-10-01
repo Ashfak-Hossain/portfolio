@@ -29,3 +29,37 @@
 ⠀⠀⠀⠀⠀⠻⣿⣄⠀⠈⠻⣿⣿⢟⠕⠁⠀⠪⣻⣦⣴⢟⠕⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣦⣴⡿⠃⠀⠀⠈⡿⣿⣿⠟⠁⠀⢀⣞⠟⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠹⣷⣄⣴⠟⠓⠁⠀⠀⠀⠀⠈⠻⠕⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠛⠀⠀⠀⠀⠀⠈⠺⣷⣄⣠⢶⠋⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠓⠁⠀⠀⠀⠀⠀⠀⠀⠀
+
+# ashfak.dev
+
+Personal portfolio of Ashfak Hossain Evan — a manga-styled single page built with
+Vite, React 19, TypeScript, GSAP and Lenis, deployed on Vercel.
+
+## Run it
+
+```bash
+npm ci
+npm run dev       # http://localhost:5173
+npm run lint
+npm run build     # type-check + production build into dist/
+```
+
+The contact form posts to `api/contact.ts`, a Vercel serverless function that
+sends mail through Gmail SMTP. Copy `.env.example` to `.env` for local use, and
+set `GMAIL_USER` and `GMAIL_APP_PASSWORD` (plus optional `CONTACT_TO`) in the
+Vercel project's environment variables for production.
+
+## Editing content
+
+All copy lives in `src/content/`, typed by `src/types/content.ts`:
+
+| File | What it holds |
+| --- | --- |
+| `work.ts` | Project panels: metric, status, tone, links, screenshot |
+| `skills.ts` | The three blades and their skill tags |
+| `hero.ts`, `about.ts`, `stats.ts`, `connect.ts`, `contact.ts` | Section copy |
+
+To add a project screenshot, drop a `.webp` into `public/assets/projects/` and
+set the project's `image` to its path (e.g. `/assets/projects/project_nooverlap.webp`).
+Until then the panel shows its brushed kanji. Panels lay out on a 12-column grid
+via `span`; panels that share a row get the slanted manga gutter automatically.

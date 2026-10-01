@@ -31,10 +31,14 @@ export function Contact() {
 
   const toEmail = connect.email;
 
+  // Honeypot: off-screen field humans never see. Bots that fill every input
+  // trip it, and the API drops the message silently.
+  const trapRef = useRef<HTMLInputElement>(null);
+
   // Submit path:
-  //  • contact.endpoint set (Formspree) → POST the message in-page.
-  //  • not set yet → degrade to the visitor's mail client so nothing is ever
-  //    silently lost. Paste your Formspree URL into content/contact.ts to upgrade.
+  //  • contact.endpoint set (/api/contact) → POST the message in-page.
+  //  • null → degrade to the visitor's mail client so nothing is ever
+  //    silently lost.
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !message.trim()) {
@@ -61,7 +65,7 @@ export function Contact() {
       const res = await fetch(contact.endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, company: trapRef.current?.value ?? '' }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setSent(true);
@@ -155,6 +159,12 @@ export function Contact() {
                 rows={5}
               />
             </label>
+            <div className={styles.trap} aria-hidden="true">
+              <label>
+                Company
+                <input ref={trapRef} name="company" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
             <div className={styles.actions}>
               <span id="form-error" className={styles.error} role="alert" aria-live="assertive">
                 {error}
