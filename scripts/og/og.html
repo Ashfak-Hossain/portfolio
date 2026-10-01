@@ -1,0 +1,170 @@
+<!doctype html>
+<!--
+  Share card (Open Graph / X) — rendered to public/og-image.jpg at 1200×630.
+  Regenerate after editing (Playwright, from the repo root):
+    npx playwright screenshot --viewport-size=1200,630 \
+      "file://$PWD/scripts/og/og.html" public/og-image.jpg
+  The portrait is og-portrait-520.webp from scripts/manga-art. Its dots are
+  deliberately large: link previews shrink this image to ~40%, and fine
+  screentone shrunk that far turns into moiré.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+JP:wght@700;900&display=block"
+    />
+    <style>
+      :root {
+        --ink: #14110f;
+        --paper: #f4f1e9;
+        --dim: #a39d92;
+        --soft: #d9d4c8;
+        --green: #2a9b53;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      body {
+        position: relative;
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        color: var(--paper);
+      }
+      .dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(244, 241, 233, 0.07) 22%, transparent 25%);
+        background-size: 14px 14px;
+      }
+      .spine {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 12px;
+        background: var(--green);
+      }
+
+      /* the manga panel: slanted gutter on its left edge, like the Work page */
+      .panel {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        width: 520px;
+        height: 570px;
+        background: var(--paper);
+        clip-path: polygon(70px 0, 100% 0, 100% 100%, 0 100%);
+      }
+      .panel img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .sfx {
+        position: absolute;
+        top: 44px;
+        left: 600px;
+        font-family: 'Noto Sans JP', sans-serif;
+        font-weight: 900;
+        font-size: 92px;
+        line-height: 1;
+        color: var(--paper);
+        -webkit-text-stroke: 8px var(--ink);
+        paint-order: stroke fill;
+        transform: rotate(-12deg);
+      }
+      .seal {
+        position: absolute;
+        right: 54px;
+        bottom: 52px;
+        padding: 12px 10px;
+        background: var(--green);
+        color: var(--paper);
+        font-family: 'Noto Sans JP', sans-serif;
+        font-weight: 900;
+        font-size: 30px;
+        line-height: 1.15;
+        writing-mode: vertical-rl;
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+
+      .copy {
+        position: absolute;
+        top: 58px;
+        left: 66px;
+        width: 560px;
+      }
+      .mark {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .logo {
+        font-family: 'Noto Sans JP', sans-serif;
+        font-weight: 900;
+        font-size: 58px;
+        line-height: 1;
+        color: var(--green);
+      }
+      .edition {
+        font-size: 15px;
+        letter-spacing: 4px;
+        color: var(--dim);
+      }
+      .edition span {
+        font-family: 'Noto Sans JP', sans-serif;
+      }
+      .name {
+        margin-top: 34px;
+        font-size: 80px;
+        font-weight: 800;
+        line-height: 0.98;
+        letter-spacing: -2px;
+      }
+      .tagline {
+        margin-top: 30px;
+        font-size: 21px;
+        line-height: 1.45;
+        color: var(--soft);
+      }
+      .tagline em {
+        color: var(--green);
+      }
+      .roles {
+        position: absolute;
+        left: 66px;
+        bottom: 54px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        color: var(--soft);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <div class="spine"></div>
+
+    <div class="panel"><img src="og-portrait-520.webp" alt="" /></div>
+    <div class="sfx" lang="ja">ドン</div>
+    <div class="seal" lang="ja">証明</div>
+
+    <div class="copy">
+      <div class="mark">
+        <div class="logo" lang="ja">海</div>
+        <div class="edition">PORTFOLIO VOL.26 · <span lang="ja">漫画</span> EDITION</div>
+      </div>
+      <div class="name">ASHFAK<br />HOSSAIN<br />EVAN</div>
+      <p class="tagline">Building correct, reasoned systems — <em>from the invariants out.</em></p>
+    </div>
+    <div class="roles">SOFTWARE ENGINEER · CS STUDENT · COMPETITIVE PROGRAMMER</div>
+  </body>
+</html>
