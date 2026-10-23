@@ -47,7 +47,7 @@ export function WantedPoster() {
         el.removeEventListener('pointerleave', leave);
       };
     },
-    { scope: root, dependencies: [reduced] },
+    { scope: root, dependencies: [reduced], revertOnUpdate: true },
   );
 
   return (

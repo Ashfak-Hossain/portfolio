@@ -1,79 +1,63 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { identity } from '../../content';
-import { useMagnetic } from '../../hooks/useMagnetic';
-import { useMotion } from '../../hooks/useMotion';
+import { edition } from '../../content/edition';
+import { PirateMark } from '../ui/PirateMark';
 import styles from './Nav.module.css';
 
-const LINKS = [
-  { href: '#about', label: 'About' },
-  { href: '#work', label: 'Work' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#connect', label: 'Blog' },
-];
-
 export function Nav() {
-  const { reduced } = useMotion();
-  const logoRef = useMagnetic<HTMLAnchorElement>(!reduced);
-  const contactRef = useMagnetic<HTMLAnchorElement>(!reduced);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState('');
+  const toggle = useRef<HTMLButtonElement>(null);
 
-  // Close the mobile menu on Escape.
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setOpen(false); toggle.current?.focus(); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActive(`#${entry.target.id}`);
+      });
+    }, { rootMargin: '-18% 0px -50% 0px' });
+    document.querySelectorAll('main > section[id], main > header[id]').forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   const close = () => setOpen(false);
 
   return (
     <>
-      <nav className={styles.nav}>
-        <a ref={logoRef} href="#top" className={styles.logo} onClick={close}>
-          <span className={styles.mark} lang="ja">
-            {identity.logoKanji}
-          </span>
-          <span className={styles.logoWord}>{identity.short}</span>
-        </a>
-
-        {/* desktop inline links */}
-        <div className={styles.links}>
-          {LINKS.map((l) => (
-            <a key={l.href} className={styles.link} href={l.href}>
-              {l.label}
-            </a>
-          ))}
-          <a ref={contactRef} className={styles.contact} href="#contact">
-            Contact ↗
+      <nav className={styles.nav} aria-label={edition.navigation.label}>
+        <div className={styles.inner}>
+          <a href="#top" className={styles.logo} onClick={close} aria-label={`${identity.short} — ${edition.navigation.back}`}>
+            <span className={styles.mark}><PirateMark /></span>
+            <span className={styles.logoWord}>{identity.short}<small>{edition.navigation.tagline}</small></span>
           </a>
+          <div className={styles.links}>
+            {edition.nav.map((link) => (
+              <a key={link.href} className={styles.link} href={link.href} aria-current={active === link.href ? 'location' : undefined}>
+                <span>{link.number}</span>{link.label}
+              </a>
+            ))}
+          </div>
+          <a className={styles.contact} href="#contact" onClick={close}>{edition.contact} <span>↗</span></a>
+          <button ref={toggle} type="button" className={styles.menuBtn} aria-label={open ? edition.navigation.close : edition.navigation.open} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((value) => !value)}>
+            <span className={styles.burger} data-open={open || undefined} />
+          </button>
         </div>
-
-        {/* mobile hamburger */}
-        <button
-          type="button"
-          className={styles.menuBtn}
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((o) => !o)}
-        >
-          <span className={styles.burger} data-open={open || undefined} />
-        </button>
       </nav>
-
-      {/* mobile slide-down menu */}
-      <div id="mobile-menu" className={styles.mobileMenu} data-open={open || undefined}>
-        {LINKS.map((l) => (
-          <a key={l.href} className={styles.mobileLink} href={l.href} onClick={close}>
-            {l.label}
+      <div id="mobile-menu" className={styles.mobileMenu} data-open={open || undefined} data-lenis-prevent inert={!open}>
+        {edition.nav.map((link) => (
+          <a key={link.href} className={styles.mobileLink} href={link.href} onClick={close} aria-current={active === link.href ? 'location' : undefined}>
+            <span>{link.number}</span>{link.label}<span>↗</span>
           </a>
         ))}
-        <a className={styles.mobileContact} href="#contact" onClick={close}>
-          Contact ↗
-        </a>
+        <a className={styles.mobileContact} href="#contact" onClick={close}>{edition.contact} ↗</a>
       </div>
     </>
   );

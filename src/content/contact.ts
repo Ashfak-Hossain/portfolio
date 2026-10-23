@@ -13,7 +13,7 @@ export const contact: Contact = {
 
 export const footer: Footer = {
   copyright: '© 2026 ASHFAK HOSSAIN EVAN',
-  colophon: 'SET IN JETBRAINS MONO + NOTO SANS JP',
+  colophon: 'BEBAS NEUE · SPACE GROTESK · JETBRAINS MONO',
   disclaimer:
-    'Unofficial fan homage — not affiliated with, endorsed by, or sponsored by Shueisha, Toei Animation, or Eiichiro Oda. All referenced names and marks belong to their respective owners.',
+    'Unofficial fan homage — not affiliated with, endorsed by, or sponsored by Shueisha, Toei Animation, Eiichiro Oda, or Tite Kubo. All referenced names and marks belong to their respective owners.',
 };

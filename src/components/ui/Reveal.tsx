@@ -39,7 +39,7 @@ export function Reveal({ delay = 0, y = 30, children, style, ...rest }: RevealPr
         },
       );
     },
-    { scope: ref, dependencies: [reduced, delay, y] },
+    { scope: ref, dependencies: [reduced, delay, y], revertOnUpdate: true },
   );
 
   return (

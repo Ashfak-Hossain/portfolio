@@ -1,51 +1,51 @@
 import { projects, workBlurb, workHeadingJp } from '../../content';
-import type { Project } from '../../types/content';
+import { workCopy } from '../../content/work';
 import { Reveal } from '../ui/Reveal';
-import { Eyebrow } from '../ui/Eyebrow';
 import { ProjectCard } from '../ui/ProjectCard';
-import type { PanelCut } from '../ui/ProjectCard';
 import styles from './Work.module.css';
 
-const COLS = 12;
-
-/**
- * Which edges of each panel touch a neighbour on the same row of the 12-col
- * grid. Those edges get the slanted manga gutter; outer edges stay square.
- */
-function panelCuts(list: Project[]): PanelCut[] {
-  let col = 0;
-  return list.map((p, i) => {
-    const span = Math.min(Math.max(p.span, 1), COLS);
-    if (col + span > COLS) col = 0;
-    const startsRow = col === 0;
-    col += span;
-    const next = list[i + 1];
-    const endsRow = !next || col + Math.min(next.span, COLS) > COLS;
-    if (endsRow) col = 0;
-    return { left: !startsRow, right: !endsRow };
-  });
-}
-
 export function Work() {
-  const cuts = panelCuts(projects);
-
   return (
-    <section id="work" className={styles.work}>
+    <section id="work" className={styles.work} aria-labelledby="work-heading">
       <div className={styles.inner}>
+        <Reveal className={styles.chapterLine}>
+          <span>{workCopy.chapter}</span>
+          <span lang="ja">{workHeadingJp}</span>
+          <span>{projects.length.toString().padStart(2, '0')} / {workCopy.count}</span>
+        </Reveal>
+
         <Reveal className={styles.header}>
-          <div>
-            <Eyebrow num="二">Selected Work</Eyebrow>
-            <h2 className={styles.heading}>
-              The Arc Log <span className={styles.headingJp}>{workHeadingJp}</span>
+          <div className={styles.titlePanel}>
+            <span className={styles.narration}>{workCopy.narration}</span>
+            <h2 id="work-heading" className={styles.heading}>
+              {workCopy.title[0]}<br />
+              <span>{workCopy.title[1]}</span>
             </h2>
           </div>
-          <p className={styles.blurb}>{workBlurb}</p>
+          <div className={styles.intro}>
+            <span className={styles.handArrow} aria-hidden="true">↙</span>
+            <p className={styles.blurb}>{workBlurb}</p>
+            <nav className={styles.index} aria-label={workCopy.indexLabel}>
+              {projects.map((project) => (
+                <a href={`#project-${project.slug ?? project.n}`} key={project.n}>
+                  <span>{project.n}</span>
+                  <span>{project.name}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </nav>
+          </div>
         </Reveal>
 
         <div className={styles.grid}>
           {projects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} cut={cuts[index]} />
+            <ProjectCard key={project.n} project={project} index={index} />
           ))}
+        </div>
+
+        <div className={styles.endnote}>
+          <span>{workCopy.footnote}</span>
+          <a href="#skills">{workCopy.next} <span aria-hidden="true">↓</span></a>
         </div>
       </div>
     </section>

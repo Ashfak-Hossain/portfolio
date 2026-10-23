@@ -1,119 +1,42 @@
-.connect {
-  position: relative;
-  background: var(--ink);
-  color: var(--paper);
-  padding: var(--section-y) var(--gutter);
-  overflow: hidden;
-}
-
-.spinner {
-  position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 60vmax;
-  height: 60vmax;
-  background: repeating-conic-gradient(
-    from 0deg at 50% 50%,
-    var(--paper) 0deg 0.3deg,
-    transparent 0.3deg 3.4deg
-  );
-  -webkit-mask: radial-gradient(circle, transparent 30%, #000 60%, transparent 80%);
-  mask: radial-gradient(circle, transparent 30%, #000 60%, transparent 80%);
-  opacity: 0.06;
-  animation: spin-reverse 90s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes spin-reverse {
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
-.inner {
-  position: relative;
-  max-width: var(--container);
-  margin: 0 auto;
-}
-
-.blogLink {
-  text-decoration: none;
-  color: var(--paper);
-  display: block;
-  margin-top: 24px;
-  will-change: transform;
-}
-.heading {
-  font-size: clamp(34px, 8vw, 110px);
-  line-height: 0.92;
-  letter-spacing: -2px;
-}
-.arrow {
-  display: inline-block;
-  transform: translateY(-0.1em);
-}
-.blurb {
-  font-size: 15px;
-  line-height: 1.8;
-  color: var(--on-ink-dim);
-  max-width: 520px;
-  margin-top: 26px;
-}
-
-.socialGrid {
-  margin-top: 56px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 2px solid var(--paper);
-  border-bottom: 2px solid var(--paper);
-}
-
-.social {
-  text-decoration: none;
-  color: var(--paper);
-  padding: 28px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-right: 2px solid var(--paper);
-  transition:
-    background 0.25s,
-    color 0.25s;
-}
-.social:last-child {
-  border-right: none;
-}
-.social:hover {
-  background: var(--accent);
-  color: var(--paper);
-}
-.socialNum {
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--line-dim);
-}
-.socialLabel {
-  font-weight: 800;
-  font-size: 20px;
-}
-
-@media (max-width: 900px) {
-  .socialGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .social:nth-child(2) {
-    border-right: none;
-  }
-}
-@media (max-width: 620px) {
-  .socialGrid {
-    grid-template-columns: 1fr;
-  }
-  .social {
-    border-right: none;
-    border-bottom: 2px solid var(--paper);
-  }
-  .social:last-child {
-    border-bottom: none;
-  }
-}
+.connect { padding: var(--section-y) var(--gutter) 70px; overflow: hidden; }
+.inner { max-width: var(--container); margin: auto; }
+.chapter { display: flex; justify-content: space-between; padding-bottom: 18px; border-bottom: 3px solid var(--ink); font: 10px var(--font-mono); letter-spacing: 1.5px; }
+.chapter > span:last-child { font: 700 16px var(--font-jp); }
+.grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 70px; align-items: center; padding: 70px 0 80px; }
+.eyebrow { display: inline-block; padding: 9px 12px; background: var(--gold); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); font: 700 8px var(--font-mono); letter-spacing: .5px; color: var(--ink); transform: rotate(-2deg); }
+.heading { margin-top: 28px; font: 400 clamp(51px,5.9vw,87px)/1.02 var(--font-comic); letter-spacing: .01em; transform: rotate(-3deg); transform-origin: left center; }
+.heading > span { display: block; color: var(--gold); -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; text-shadow: 4px 4px 0 var(--ink); }
+.blurb { max-width: 380px; font-size: 14px; line-height: 1.9; color: var(--on-paper-dim); margin-top: 24px; }
+.cta { display: inline-flex; align-items: center; gap: 35px; border: 3px solid var(--ink); background: var(--ink); color: var(--paper); box-shadow: 5px 5px 0 var(--gold); padding: 13px 18px; margin-top: 26px; text-decoration: none; font-size: 12px; font-weight: 500; }
+.cta span { font-size: 25px; transition: transform .25s; }
+.cta:hover span { transform: translate(3px,-3px); }
+.notebookStage { position: relative; isolation: isolate; padding: 25px 45px 15px; perspective: 1200px; }
+.voyageChart { position: absolute; z-index: -1; width: 133%; max-width: none; height: 115%; top: -20px; left: -17%; transform: rotate(-8deg); filter: drop-shadow(4px 5px 0 #191c1720); }
+.notebook { display: block; position: relative; width: 300px; max-width: 100%; margin: auto; background: var(--accent); border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--paper),7px 7px 0 var(--ink),11px 11px 0 var(--paper),14px 14px 0 var(--ink),20px 25px 0 #191c172b; transform: rotate(7deg); transition: transform .5s var(--ease-out-expo); color: var(--paper); text-decoration: none; }
+.notebook:hover { transform: rotate(0) rotateY(-10deg) translateY(-8px); }
+.notebook:focus-visible { outline-offset: 15px; }
+.bookCover { position: relative; padding: 22px 22px 20px 35px; border-left: 13px solid #191c1766; overflow: hidden; }
+.bookCover::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(0deg,transparent 0 3px,#191c1706 3px 4px); }
+.bookMeta { display: flex; justify-content: space-between; gap: 20px; font: 6px var(--font-mono); letter-spacing: 1px; border-bottom: 1px solid #f3efdf70; padding-bottom: 12px; }
+.bookKanji { position: absolute; top: 38px; right: -17px; font: 900 170px var(--font-jp); color: #f3efdf13; transform: rotate(-10deg); }
+.crewEmblem { display: block; position: relative; width: 100px; height: 83px; margin: 12px auto 0; color: var(--paper); transform: rotate(-4deg); }
+.bookTitle { position: relative; display: block; padding-top: 12px; font: 65px/.95 var(--font-comic); letter-spacing: 1px; }
+.bookTitle > span { position: absolute; right: -5px; bottom: -7px; font: 45px var(--font-body); color: var(--gold); }
+.bookSub { display: block; margin-top: 27px; font: 7px/1.7 var(--font-mono); letter-spacing: .8px; }
+.bookBottom { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f3efdf70; padding-top: 12px; margin-top: 40px; font: 8px var(--font-mono); }
+.bookBottom > span:last-child { font-size: 22px; }
+.annotation { position: relative; display: flex; justify-content: center; align-items: center; gap: 10px; font: 10px var(--font-type); padding: 9px; border: 2px solid var(--ink); background: var(--gold); margin-top: 32px; transform: rotate(-4deg); color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+.annotation > span { font-size: 25px; }
+.channelsLabel { font: 8px var(--font-mono); letter-spacing: 2px; margin-bottom: 15px; }
+.socialGrid { display: grid; grid-template-columns: repeat(4,1fr); border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); }
+.social { display: flex; align-items: center; gap: 14px; padding: 25px 20px; border-right: 3px solid var(--ink); text-decoration: none; transition: color .25s, background .25s; }
+.social:last-child { border-right: 0; }
+.socialNum { font: 7px var(--font-mono); color: var(--on-paper-dim); align-self: flex-start; margin-top: 4px; }
+.socialLabel { font: 25px var(--font-comic); letter-spacing: .02em; }
+.socialArrow { margin-left: auto; font-size: 20px; transition: transform .2s; }
+.social:hover { color: var(--ink); background: var(--gold); }
+.social:hover .socialArrow { transform: translate(3px,-3px); }
+@media(max-width: 1050px) { .grid { gap: 30px; } .notebookStage { padding-inline: 20px; } .social { padding: 22px 14px; gap: 9px; } .socialLabel { font-size: 23px; } }
+@media(max-width: 760px) { .connect { padding-bottom: 55px; } .grid { grid-template-columns: 1fr; gap: 60px; padding: 43px 0 55px; } .heading { font-size: clamp(43px,10.5vw,70px); } .notebookStage { width: min(100%,440px); margin-inline: auto; padding: 12px 32px; } .notebook { width: 270px; } .bookTitle { font-size: 58px; } .bookCover { padding-left: 23px; } .bookBottom { margin-top: 25px; } .annotation { font-size: 10px; } .socialGrid { grid-template-columns: 1fr 1fr; } .social:nth-child(2) { border-right: 0; } .social:nth-child(-n+2) { border-bottom: 3px solid var(--ink); } .socialLabel { font-size: 22px; } }
+@media(max-width: 380px) { .notebookStage { padding-inline: 16px; } .bookTitle { font-size: 51px; } .bookCover { padding-inline: 17px; border-left-width: 9px; } .social { padding-inline: 10px; gap: 6px; } .socialLabel { font-size: 20px; } .socialArrow { font-size: 16px; } .socialNum { font-size: 6px; } }
+@media(prefers-reduced-motion: reduce) { .notebook, .social, .socialArrow, .cta span { transition: none; } .notebook:hover { transform: rotate(7deg); } .social:hover .socialArrow, .cta:hover span { transform: none; } }

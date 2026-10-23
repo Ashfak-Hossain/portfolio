@@ -29,7 +29,7 @@ export function StatCounter({ value, suffix, label }: StatItem) {
         scrollTrigger: { trigger: el, start: 'top 85%', once: true },
       });
     },
-    { scope: numRef, dependencies: [reduced, value] },
+    { scope: numRef, dependencies: [reduced, value], revertOnUpdate: true },
   );
 
   return (

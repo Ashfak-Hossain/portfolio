@@ -31,6 +31,6 @@ export function usePointerParallax(scope: RefObject<HTMLElement | null>, depthSc
       container.addEventListener('pointermove', onMove);
       return () => container.removeEventListener('pointermove', onMove);
     },
-    { scope, dependencies: [depthScale] },
+    { scope, dependencies: [depthScale], revertOnUpdate: true },
   );
 }

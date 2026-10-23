@@ -1,206 +1,135 @@
 import { useRef } from 'react';
 import type { Project } from '../../types/content';
-import { gsap, useGSAP } from '../../lib/gsap';
+import { workCopy } from '../../content/work';
+import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import { useMotion } from '../../hooks/useMotion';
-import { ImageSlot } from './ImageSlot';
 import styles from './ProjectCard.module.css';
 
-/** Which panel edges meet a neighbour on the same row (and get slanted). */
-export interface PanelCut {
-  left: boolean;
-  right: boolean;
-}
+interface ProjectCardProps { project: Project; index: number; }
 
-interface ProjectCardProps {
-  project: Project;
-  index: number;
-  cut: PanelCut;
-}
-
-const JP_NUM = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-const METRIC_CHARS = '0123456789→';
-
-/** GitHub octocat mark. */
-function GitHubMark() {
+function ArrowMark() {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-      <path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-1.95c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.2-3.1-.12-.29-.52-1.46.11-3.05 0 0 .98-.31 3.2 1.18a11.1 11.1 0 0 1 5.82 0c2.22-1.49 3.2-1.18 3.2-1.18.63 1.59.23 2.76.11 3.05.75.81 1.2 1.84 1.2 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+      <path d="M5 19 19 5M5 5h14v14" />
     </svg>
   );
 }
 
-/** Open-book mark for the case-study link. */
-function BookMark() {
+function ReservationArt() {
+  const copy = workCopy.reservation;
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d="M2 5c3-1.5 6.5-1.5 10 1 3.5-2.5 7-2.5 10-1v14c-3-1.5-6.5-1.5-10 1-3.5-2.5-7-2.5-10-1z" />
-      <path d="M12 6v14" />
-    </svg>
+    <div className={styles.reservation} aria-hidden="true">
+      <div className={styles.reservationHeadline}>{copy.title}<br /><span>{copy.subtitle}</span></div>
+      <div className={styles.ledger}>
+        <div className={styles.ledgerHeader}><span>{copy.label}</span><span>↙</span></div>
+        <div className={styles.timeline}>
+          <div className={styles.hours}>{copy.times.map((time) => <span key={time}>{time}</span>)}</div>
+          <div className={styles.booking}>{copy.confirmed}<span>✓</span></div>
+          <div className={styles.conflict}><span>{copy.denied}</span><b>×</b></div>
+        </div>
+        <div className={styles.ledgerSeal}>{copy.seal}<span>◆</span></div>
+      </div>
+    </div>
   );
 }
 
-/**
- * One manga panel on the Work page: chapter tag, the art (screenshot or a
- * brushed kanji until there is one), the proof metric, and a katakana SFX
- * that bursts in on hover. Reveals with a per-index stagger; the metric
- * decodes like the hero name.
- */
-export function ProjectCard({ project, index, cut }: ProjectCardProps) {
+function TicketArt() {
+  const copy = workCopy.ticket;
+  return (
+    <div className={styles.ticketArt} aria-hidden="true">
+      <div className={styles.ticketEcho}>{copy.name[0]}<br />{copy.name[1]}</div>
+      <div className={styles.ticket}>
+        <div className={styles.ticketMain}>
+          <span className={styles.ticketEyebrow}>{copy.eyebrow}<span>✦</span></span>
+          <div className={styles.ticketName}>{copy.name[0]}<br />{copy.name[1]}</div>
+          <span className={styles.ticketCaption}>{copy.caption}</span>
+        </div>
+        <div className={styles.ticketStub}>
+          <span>{copy.admit}</span><div className={styles.barcode} /><b>EA—003</b>
+        </div>
+      </div>
+      <span className={styles.ticketStamp}>{copy.stamp}<span>↗</span></span>
+    </div>
+  );
+}
+
+export function ProjectCard({ project, index }: ProjectCardProps) {
   const ref = useRef<HTMLElement>(null);
   const { reduced } = useMotion();
-  const descId = `project-${project.slug}-desc`;
+  const slug = project.slug ?? project.n;
+  const featured = index === 0;
 
-  useGSAP(
-    () => {
-      const el = ref.current;
-      if (!el) return;
-      if (reduced) {
-        gsap.set(el, { opacity: 1, y: 0 });
-        return;
-      }
-      const metric = el.querySelector<HTMLElement>('[data-metric]');
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: el, start: 'top 92%', once: true },
-        delay: index * 0.08,
-      });
-      tl.fromTo(el, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' });
-      if (metric) {
-        tl.to(
-          metric,
-          {
-            duration: 0.9,
-            ease: 'none',
-            scrambleText: {
-              text: metric.textContent ?? '',
-              chars: METRIC_CHARS,
-              revealDelay: 0.2,
-              speed: 0.6,
-            },
-          },
-          0.25,
-        );
-      }
-    },
-    { scope: ref, dependencies: [reduced, index] },
-  );
-
-  const chapterJp = `第${JP_NUM[index] ?? project.n}話`;
-
-  const body = (
-    <>
-      <div className={styles.art}>
-        {project.image ? (
-          <ImageSlot src={project.image} alt={`${project.name} screenshot`} />
-        ) : (
-          <div className={styles.placeholderArt} aria-hidden="true">
-            <span className={styles.bigKanji} lang="ja">
-              {project.kanji}
-            </span>
-          </div>
-        )}
-      </div>
-      <div className={styles.speedlines} aria-hidden="true" />
-      <span className={styles.sfx} lang="ja" aria-hidden="true">
-        {project.sfx}
-      </span>
-
-      <div className={styles.tag}>
-        <span className={styles.chapter}>
-          <span lang="ja" className={styles.chapterJp}>
-            {chapterJp}
-          </span>
-          <span>CH.{project.n}</span>
-        </span>
-        {project.status && (
-          <span className={styles.status}>
-            <span className={styles.statusDot} aria-hidden="true" />
-            {project.status}
-          </span>
-        )}
-      </div>
-
-      <div className={styles.caption}>
-        <div className={styles.capTop}>
-          <span>{project.year}</span>
-          <span className={styles.capMeta}>{project.stack}</span>
-        </div>
-        {project.metric && (
-          <div className={styles.metric}>
-            <span className={styles.metricValue} data-metric>
-              {project.metric.value}
-            </span>
-            <span className={styles.metricLabel}>{project.metric.label}</span>
-          </div>
-        )}
-        <h3 className={styles.capName}>{project.name}</h3>
-        <p className={styles.capDesc} id={descId}>
-          {project.desc}
-        </p>
-      </div>
-    </>
-  );
+  useGSAP(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (reduced) { gsap.set(el, { opacity: 1, y: 0 }); return; }
+    gsap.fromTo(el, { opacity: 0, y: 30 }, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 94%', once: true },
+    });
+  }, { scope: ref, dependencies: [reduced], revertOnUpdate: true });
 
   return (
-    <article
-      ref={ref}
-      id={`project-${project.slug}`}
-      className={styles.card}
-      data-tone={project.tone}
-      data-cut-left={cut.left || undefined}
-      data-cut-right={cut.right || undefined}
-      style={{ gridColumn: `span ${project.span}`, opacity: 0 }}
-    >
-      {project.href ? (
-        <a
-          className={styles.cardMain}
-          href={project.href}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`${project.name} — open live project`}
-          aria-describedby={descId}
-        >
-          {body}
-        </a>
-      ) : (
-        <div className={styles.cardMain}>{body}</div>
-      )}
-
-      {(project.github || project.caseStudy) && (
-        <div className={styles.actions}>
-          {project.caseStudy && (
-            <a
-              className={styles.action}
-              href={project.caseStudy}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${project.name} — case study`}
-            >
-              <BookMark />
-              <span>CASE STUDY</span>
-            </a>
-          )}
-          {project.github && (
-            <a
-              className={styles.action}
-              href={project.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${project.name} — source code on GitHub`}
-            >
-              <GitHubMark />
-              <span>CODE</span>
-            </a>
-          )}
+    <article id={`project-${slug}`} ref={ref}
+      className={`${styles.card} ${featured ? styles.featured : ''}`}
+      data-illustration={project.illustration}
+      aria-labelledby={`project-${slug}-title`}
+      style={{ gridColumn: `span ${project.span}` }}>
+      <div className={styles.topline}>
+        <span>{workCopy.projectLabel} {project.n} <span className={styles.toplineSlash}>/</span> {project.category}</span>
+        <span>{project.year}</span>
+      </div>
+      <div className={styles.main}>
+        <div className={styles.art}>
+          <span className={styles.artNumber} aria-hidden="true">{project.n}</span>
+          {workCopy.panelCaptions[slug] && <span className={styles.narration}>{workCopy.panelCaptions[slug]}</span>}
+          {workCopy.soundEffects[slug] && <span className={styles.soundEffect} lang="ja" aria-hidden="true">{workCopy.soundEffects[slug]}</span>}
+          {project.image ? (
+            <div className={styles.browserFrame}>
+              <div className={styles.browserBar}>
+                <span className={styles.browserDots}><i /><i /><i /></span>
+                <span>{project.href && new URL(project.href).hostname}</span><span aria-hidden="true">↗</span>
+              </div>
+              <img src={project.image} alt={`${project.name} — ${workCopy.screenshotAlt}`} loading="lazy" width="2860" height="1350" />
+            </div>
+          ) : project.illustration === 'reservation' ? <ReservationArt /> : project.illustration === 'ticket' ? <TicketArt /> : null}
+          <span className={styles.artCaption}>{project.image ? workCopy.screenshotLabel : workCopy.sketch}</span>
+          <span className={styles.kanji} lang="ja" aria-hidden="true">{project.kanji}</span>
         </div>
+        <div className={styles.content}>
+          <div className={styles.titleRow}>
+            <h3 id={`project-${slug}-title`} className={styles.name}>{project.name}</h3>
+          </div>
+          <p className={styles.desc}>{project.desc}</p>
+          <ul className={styles.stack} aria-label={`${project.name} technology stack`}>
+            {project.stack.split(' · ').map((technology) => <li key={technology}>{technology}</li>)}
+          </ul>
+          <div className={styles.actions}>
+            {project.href && (
+              <a className={styles.liveLink} href={project.href} target="_blank" rel="noreferrer" aria-label={`${workCopy.live}: ${project.name} (opens in a new tab)`}>
+                <span>{workCopy.live}</span><ArrowMark />
+              </a>
+            )}
+            {project.github && (
+              <a className={styles.sourceLink} href={project.github} target="_blank" rel="noreferrer" aria-label={`${project.name}: ${workCopy.source} (opens in a new tab)`}>
+                <span aria-hidden="true">{'</>'}</span>{workCopy.source}
+              </a>
+            )}
+            {project.caseStudy && (
+              <a className={styles.sourceLink} href={project.caseStudy} target="_blank" rel="noreferrer" aria-label={`${project.name}: ${workCopy.architecture} (opens in a new tab)`}>
+                {workCopy.architecture}<ArrowMark />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+      {project.notes && project.notes.length > 0 && (
+        <details className={styles.notes} onToggle={() => { if (!reduced) ScrollTrigger.refresh(); }}>
+          <summary><span>{workCopy.notes}</span><span className={styles.notesIcon} aria-hidden="true">+</span></summary>
+          <div className={styles.notesGrid}>
+            {project.notes.map((note) => <div key={note.label}><h4>{note.label}</h4><p>{note.text}</p></div>)}
+          </div>
+        </details>
       )}
     </article>
   );

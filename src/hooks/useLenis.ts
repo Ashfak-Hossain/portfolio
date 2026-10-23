@@ -22,6 +22,8 @@ export function useLenis(enabled: boolean): void {
         duration: 1.05,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        // Lenis keeps the native fragment navigation, including keyboard focus.
+        anchors: true,
       });
       lenis.on('scroll', ScrollTrigger.update);
       tick = (time: number) => lenis!.raf(time * 1000);

@@ -23,6 +23,6 @@ export function useScramble(scope: RefObject<HTMLElement | null>, enabled: boole
         });
       });
     },
-    { scope, dependencies: [enabled] },
+    { scope, dependencies: [enabled], revertOnUpdate: true },
   );
 }
